@@ -1,0 +1,10 @@
+.pagi:hover {
+    opacity: 0.7;
+    background-color: #12ca8a;
+    color: #ffffff;
+}
+.pagi:onclick {
+    opacity: 0.8;
+    background-color: #12ca8a;
+    color: #ffffff;
+}

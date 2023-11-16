@@ -1,0 +1,14 @@
+.custom_link {
+    text-decoration: none;
+    color: black;
+}
+.custom_link:hover {
+    color: #12ca8a;
+}
+.custom_link_auth {
+    text-decoration: none;
+    color: #12ca8a;
+}
+.custom_link_auth:hover {
+    color: #115A40 ;
+}

@@ -1,0 +1,27 @@
+.navbar-custom {
+    background-image: linear-gradient(to right, #12ca8a, #115A40);
+}
+
+.navbar-custom .navbar-brand {
+    color: #f2f3f2 ;
+}
+.navbar-custom .nav-link {
+    padding: 2px;
+    color: #f2f3f2 ;
+}
+.navbar-custom .nav-link:hover {
+    font-weight: 500;
+}
+.navbar-nav .nav-link.active, .navbar-nav .show>.nav-link {
+    color:#f2f3f2 ;
+    font-weight: 600 ;
+}
+.navbar-toggler:focus {
+    text-decoration: none;
+    outline: 0;
+    box-shadow: 1 1 1 var(--bs-navbar-toggler-focus-width);
+}
+.custom-nav-link:hover{
+    font-weight: 900 !important;
+}
+

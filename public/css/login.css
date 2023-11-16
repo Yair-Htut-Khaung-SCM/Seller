@@ -1,0 +1,10 @@
+input#password.form-control {
+    position: relative;
+}
+#show-password{
+    position: absolute;
+    top: 42.5%;
+    left: 92%;
+    color: lightgray;
+    cursor: pointer;
+}

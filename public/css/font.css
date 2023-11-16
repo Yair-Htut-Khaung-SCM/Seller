@@ -1,0 +1,75 @@
+@font-face {
+    font-family: Lato;
+    src: url('/fonts/Lato.ttf');
+}
+@font-face {
+    font-family: Lato;
+    src: url('/fonts/Lato.ttf');
+}
+
+
+.header-1 {
+    font-family: Lato;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: normal;
+    letter-spacing: -0.5px;
+    line-height: 29.25px;
+    text-transform: uppercase;
+    color: #FF4030;
+}
+
+.header-2 {
+    font-family: Lato;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: normal;
+    letter-spacing: -0.5px;
+    line-height: 29.25px;
+    text-transform: uppercase;
+    color: #FF4030;
+}
+
+.header-3 {
+    font-family: Lato;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: normal;
+    letter-spacing: -0.36000001430511475px;
+    line-height: 20px;
+    text-transform: none;
+    color: #505656;
+}
+
+.header-4 {
+    font-family: Lato;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: normal;
+    letter-spacing: -0.36000001430511475px;
+    line-height: 20px;
+    text-transform: none;
+    color: #505656;
+}
+
+.content-1 {
+    font-family: Lato;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    letter-spacing: normal;
+    line-height: 29.450000762939453px;
+    text-transform: none;
+    color: #7A7A7A;
+}
+
+.content-2 {
+    font-family: Lato;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    letter-spacing: normal;
+    line-height: 29.450000762939453px;
+    text-transform: none;
+    color: #7A7A7A;
+}

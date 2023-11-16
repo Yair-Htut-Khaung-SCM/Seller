@@ -1,0 +1,18 @@
+.breadcrumb {
+    font-size: 1.2rem;
+    font-family: 'Lato';
+    font-weight: 300;
+}
+
+.breadcrumb-item a{
+    text-decoration: none;
+    color: gray;
+}
+
+.breadcrumb-item a:hover{
+    color: #12ca8a;
+}
+
+.breadcrumb-item.active{
+    color: #12ca8a;
+}

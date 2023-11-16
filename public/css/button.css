@@ -1,0 +1,13 @@
+.button {
+    background-color: #12ca8a ;
+    transition: 0.5s;
+    color: white;
+    display: block;
+}
+
+.button:hover {
+    /* background-position: right center; change the direction of the change here */
+    background-color: #115A40 !important;
+    color: white;
+    text-decoration: none;
+}

@@ -1,0 +1,62 @@
+input[type="file"] {
+    display: none;
+}
+.upload_image_icon {
+    width: 100px;
+    height: 100px;
+    padding: 0px;
+    margin: 0.7rem;
+    border-radius: 1rem;
+}
+.upload_image_icon:hover {
+    transform: scale(1.03, 1.03);
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+.upload_image_icon:focus {
+    outline: 0 none !important;
+}
+.upload_preview {
+    padding: 0px;
+    margin: 0.7rem;
+    border-radius: 0.5rem;
+    position: relative;
+    display: inline-block;
+}
+.upload_preview_image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 0.5rem;
+}
+.upload_preview_profile {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 100%;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+.upload_preview_image:hover {
+    border: solid #12ca8a ;
+}
+.upload_preview_image:focus {
+    outline: 0 none !important;
+}
+.upload_preview_remove {
+    display: block;
+    cursor: pointer;
+    position: absolute;
+    top: 0%;
+    left: 100%;
+    width: 32px;
+    height: 32px;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    background-color: #ca0b00  ;
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 50%;
+}
+.upload_preview_remove:hover {
+    color: #fff;
+    background-color: #ff5555;
+}
