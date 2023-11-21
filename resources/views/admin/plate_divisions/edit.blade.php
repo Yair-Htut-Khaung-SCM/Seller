@@ -26,7 +26,7 @@
     <div class="">
       <form class="px-4 py-3" action="{{ route('admin.plate-division.update', $plate_division->id) }}" method="POST" >
         @csrf
-
+        @method('PUT')
         <!-- User Name -->
         <div class="mb-3">
           <label for="name" class="form-label">Name</label>

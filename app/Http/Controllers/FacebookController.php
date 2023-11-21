@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\GeneralType;
 use App\Models\Profile;
 use App\Models\ProfileImage;
 use Illuminate\Http\Request;
@@ -15,13 +16,13 @@ class FacebookController extends Controller
 {
     public function redirectToFacebook()
     {
-        return Socialite::driver('facebook')->redirect();
+        return Socialite::driver(GeneralType::socialize_facebook)->redirect();
     }
 
     public function handleFacebookCallback()
     {
         try {
-            $user = Socialite::driver('facebook')->user();
+            $user = Socialite::driver(GeneralType::socialize_facebook)->user();
 
             $finduser = User::where('facebook_id', $user->id)->first();
 
@@ -38,7 +39,7 @@ class FacebookController extends Controller
                 ]);
                 $profile = new Profile();
                 $profile->user_id = $newUser->id;
-                $profile->status = 'Normal User';
+                $profile->status = GeneralType::profile_status;
 
                 $profile->save();
 
@@ -60,7 +61,7 @@ class FacebookController extends Controller
                 ]);
                 $profile = new Profile();
                 $profile->user_id = $newUser->id;
-                $profile->status = 'Normal User';
+                $profile->status = GeneralType::profile_status;
 
                 $profile->save();
 

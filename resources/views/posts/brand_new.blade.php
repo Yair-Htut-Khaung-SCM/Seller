@@ -15,7 +15,7 @@
                 </nav>
             </div>
             <div class="col-12 col-md-4">
-                <form class="d-flex" action="{{ route('sale.post.index') }}" method="get">
+                <form class="d-flex" action="{{ route('sale.index') }}" method="get">
                     <input class="form-control me-2" name="car_model" type="search" placeholder="Search By Model">
                     <button type="submit" class="btn button fw-bolder" style="width:150px;">{{ __('search') }}</button>
                 </form>
@@ -38,7 +38,7 @@
             @foreach($posts as $post)
             <div class="mb-2">
                 {{--@include('components.card-sm')--}}
-                <x-card_sm purpose="sale" :route="route('sale.post.show', $post->id)" saleProfile="sale" :$post :$users :$profile_image/>
+                <x-card_sm purpose="sale" :route="route('sale.show', $post->id)" saleProfile="sale" :$post :$users :$profile_image/>
             </div>
             @endforeach
             <!-- End Columns --->

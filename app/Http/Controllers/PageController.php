@@ -13,6 +13,7 @@ use App\Models\Manufacturer;
 use App\Models\ProfileImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Enums\GeneralType;
 
 class PageController extends Controller
 {
@@ -20,10 +21,10 @@ class PageController extends Controller
     {
         $manufacturers = Manufacturer::all();
         $build_types = BuildType::all();
-        $posts = Post::orderBy("id", "DESC")->where('is_published', '=', '1')->limit(12)->get();
-        $buy_posts = Post::Where('purpose', '=', 'buy')->where('is_published', '=', '1')->orderBy("id", "DESC")->limit(12)->get();
-        $sale_posts = Post::Where('purpose', '=', 'sale')->where('is_published', '=', '1')->orderBy("id", "DESC")->limit(12)->get();
-        $brand_news = Post::Where('condition', '=', 'Brand New')->where('is_published', '=', '1')->orderBy("id", "DESC")->limit(12)->get();
+        $posts = Post::orderBy("id", "DESC")->where('is_published', '=', GeneralType::is_published)->limit(12)->get();
+        $buy_posts = Post::Where('purpose', '=', GeneralType::purpose_buy)->where('is_published', '=', GeneralType::is_published)->orderBy("id", "DESC")->limit(12)->get();
+        $sale_posts = Post::Where('purpose', '=', GeneralType::purpose_sale)->where('is_published', '=', GeneralType::is_published)->orderBy("id", "DESC")->limit(12)->get();
+        $brand_news = Post::Where('condition', '=', GeneralType::car_condition[0])->where('is_published', '=', GeneralType::is_published)->orderBy("id", "DESC")->limit(12)->get();
         $profile_image = ProfileImage::all();
         // Popular car dealer
         $users = User::all();
@@ -32,7 +33,7 @@ class PageController extends Controller
         $fav_array = array();
 
         foreach ($users as $user) {
-            $user_posts = Post::where('user_id', $user->id)->where('is_published', '=', '1')->get('id');
+            $user_posts = Post::where('user_id', $user->id)->where('is_published', '=', GeneralType::is_published)->get('id');
             $arr = array();
             foreach ($user_posts as $post) {
                 array_push($arr, $post->id);

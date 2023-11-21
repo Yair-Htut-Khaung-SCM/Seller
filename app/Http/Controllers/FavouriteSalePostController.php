@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\GeneralType;
 use App\Models\Post;
 use App\Models\Favourite;
 use App\Models\ProfileImage;
@@ -14,7 +15,7 @@ class FavouriteSalePostController extends Controller
     public function index()
     {
         $posts = Auth::user()->favourite_posts;
-        $sale_posts = collect($posts)->reverse()->where('purpose','=','sale');
+        $sale_posts = collect($posts)->reverse()->where('purpose','=',GeneralType::purpose_sale);
         $users = User::all();
         $profile_image = ProfileImage::all();
 

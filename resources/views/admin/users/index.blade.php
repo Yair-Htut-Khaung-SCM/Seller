@@ -54,11 +54,12 @@
                             <td>{{date_format($user->created_at,'d-m-Y')}}</td>
                             <td>
                                 <div class="d-flex">
-                                    <form action="{{ route('admin.user.update', $user->id ) }}" method="POST">
+                                    <form action="{{ route('admin.users.update', $user->id ) }}" method="POST">
                                         @csrf
+                                        @method('PUT')
                                         <button type="submit" class="btn btn-sm btn-outline-secondary fw-bold me-2">Edit</button>
                                     </form>
-                                    <form action="{{ route('admin.user.destroy', $user->id ) }}" method="POST" onclick="return confirm('Delete user will be permanently! Cannont be Undone! Are you sure?')">
+                                    <form action="{{ route('admin.users.destroy', $user->id ) }}" method="POST" onclick="return confirm('Delete user will be permanently! Cannont be Undone! Are you sure?')">
                                         @method('DELETE')
                                         @csrf
                                         <button type="submit" class="btn btn-outline-danger btn-sm fw-bold">Delete</button>

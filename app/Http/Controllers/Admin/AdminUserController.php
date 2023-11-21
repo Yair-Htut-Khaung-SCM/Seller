@@ -3,15 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\AdminUser;
-use Illuminate\Http\Request;
+use App\Services\Admin\AdminService;
 
 class AdminUserController extends Controller
 {
+    public function __construct(AdminService $adminService)
+    {
+        $this->adminService = $adminService;
+    }
     public function index()
     {
-        $users = AdminUser::paginate(10);
-
+        $users = $this->adminService->getDetail();
         return view('admin.admin_users.index', compact('users'));
     }
 }

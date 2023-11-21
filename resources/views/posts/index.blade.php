@@ -15,7 +15,7 @@
                 </nav>
             </div>
             <div class="col-12 col-md-4">
-                <form class="d-flex" action="{{ route('sale.post.index') }}" method="get">
+                <form class="d-flex" action="{{ route('sale.index') }}" method="get">
                     <input class="form-control me-2" name="car_model" type="search" placeholder="{{ __('Search By Model') }}">
                     <button type="submit" class="btn button fw-bolder" style="width:150px;"><i class="fa-solid fa-magnifying-glass me-2"></i>{{ __('search') }}</button>
                 </form>
@@ -27,7 +27,7 @@
     <div class="bg-light rounded mt-3 mb-5 p-4">
         <div class="d-flex justify-content-end mb-2">
             <div class="col-11">
-                @if( request()->fullUrl()==route('sale.post.index') )
+                @if( request()->fullUrl()==route('sale.index') )
                 <h4>{{ __('latest_upload') }}</h4>
                 @else
                 <h5 class="text-black"><span class="text-muted"><i class="fa-solid fa-filter me-1" style="color:#12ca8a"></i>Showing Search Result : </span>
@@ -63,7 +63,7 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>
-                            <form action="{{ route('sale.post.index') }}">
+                            <form action="{{ route('sale.index') }}">
                                 
                                  @if( request('multi_manufacturer_id') )
                                 @php($manufacturers_car = request('multi_manufacturer_id'))
@@ -138,7 +138,7 @@
                             </form>
                         </li>
                         <li>
-                            <form action="{{ route('sale.post.index') }}">
+                            <form action="{{ route('sale.index') }}">
                                 
                                  @if( request('multi_manufacturer_id') )
                                 @php($manufacturers_car = request('multi_manufacturer_id'))
@@ -212,7 +212,7 @@
                             </form>
                         </li>
                         <li>
-                            <form action="{{ route('sale.post.index') }}">
+                            <form action="{{ route('sale.index') }}">
 
                                 @if( request('multi_manufacturer_id') )
                                 @php($manufacturers_car = request('multi_manufacturer_id'))
@@ -286,7 +286,7 @@
                             </form>
                         </li>
                         <li>
-                            <form action="{{ route('sale.post.index') }}">
+                            <form action="{{ route('sale.index') }}">
 
                                  @if( request('multi_manufacturer_id') )
                                 @php($manufacturers_car = request('multi_manufacturer_id'))
@@ -360,7 +360,7 @@
                             </form>
                         </li>
                         <li>
-                            <form action="{{ route('sale.post.index') }}">
+                            <form action="{{ route('sale.index') }}">
 
                                 @if( request('multi_manufacturer_id') )
                                 @php($manufacturers_car = request('multi_manufacturer_id'))
@@ -434,7 +434,7 @@
                             </form>
                         </li>
                         <li>
-                            <form action="{{ route('sale.post.index') }}">
+                            <form action="{{ route('sale.index') }}">
 
                                 @if( request('multi_manufacturer_id') )
                                 @php($manufacturers_car = request('multi_manufacturer_id'))
@@ -508,7 +508,7 @@
                             </form>
                         </li>
                         <li>
-                            <form action="{{ route('sale.post.index') }}">
+                            <form action="{{ route('sale.index') }}">
 
                                 @if( request('multi_manufacturer_id') )
                                 @php($manufacturers_car = request('multi_manufacturer_id'))
@@ -582,7 +582,7 @@
                             </form>
                         </li>
                         <li>
-                            <form action="{{ route('sale.post.index') }}">
+                            <form action="{{ route('sale.index') }}">
 
                                 @if( request('multi_manufacturer_id') )
                                 @php($manufacturers_car = request('multi_manufacturer_id'))
@@ -778,7 +778,7 @@
             @foreach($posts as $post)
             <div class="mb-2">
                 {{--@include('components.card')--}}
-                <x-card_lg purpose="sale" :route="route('sale.post.show', $post->id)" saleProfile="sale" :$post :$users :$profile_image/>
+                <x-card_lg purpose="sale" :route="route('sale.show', $post->id)" saleProfile="sale" :$post :$users :$profile_image/>
             </div>
             @endforeach
             <!-- End Columns --->

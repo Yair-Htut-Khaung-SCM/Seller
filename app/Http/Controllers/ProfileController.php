@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\GeneralType;
 use App\Models\Post;
 use App\Models\Profile;
 use App\Models\ProfileImage;
@@ -31,7 +32,7 @@ class ProfileController extends Controller
         $users = User::all();
         $profile_image = ProfileImage::all();
         $posts =  Post::where('user_id','=',$id)
-        ->where('purpose','=','sale')->paginate(6);
+        ->where('purpose','=',GeneralType::purpose_sale)->paginate(6);
 
 
         return view('profile.showown_sale', compact('posts', 'user', 'user_profile', 'user_img', 'usersale', 'profile_image', 'users'));
@@ -48,7 +49,7 @@ class ProfileController extends Controller
         $users = User::all();
         $profile_image = ProfileImage::all();
         $posts =  Post::where('user_id','=',$id)
-        ->where('purpose','=','buy')->paginate(6);
+        ->where('purpose','=',GeneralType::purpose_buy)->paginate(6);
 
 
         return view('profile.showown_buy', compact('posts', 'user', 'user_profile', 'user_img', 'userbuy', 'profile_image', 'users'));
@@ -68,7 +69,7 @@ class ProfileController extends Controller
 
         $user->name = $request->name;
         $user->email = $request->email;
-        // $user->password = bcrypt($request->password);
+        //$user->password = bcrypt($request->password);
         $user->save();
 
         $profile->status = $request->status;
@@ -116,7 +117,7 @@ class ProfileController extends Controller
         $usersale = User::all();
         $users = User::all();
         $profile_image = ProfileImage::all();
-        $posts =  Post::where('user_id','=',$id)->where('purpose','=','sale')->where('is_published','=','1')->paginate(6);
+        $posts =  Post::where('user_id','=',$id)->where('purpose','=',GeneralType::purpose_sale)->where('is_published','=',GeneralType::is_published)->paginate(6);
         $user = User::where('id', $id)->first();
         $user_profile = Profile::where('user_id', $id)->first();
         $user_img = ProfileImage::where('profile_id', $user_profile->id)->first();
@@ -131,7 +132,7 @@ class ProfileController extends Controller
         $usersale = User::all();
         $users = User::all();
         $profile_image = ProfileImage::all();
-        $posts =  Post::where('user_id','=',$id)->where('purpose','=','buy')->where('is_published','=','1')->paginate(6);
+        $posts =  Post::where('user_id','=',$id)->where('purpose','=',GeneralType::purpose_buy)->where('is_published','=',GeneralType::is_published)->paginate(6);
         $user = User::where('id', $id)->first();
         $user_profile = Profile::where('user_id', $id)->first();
         $user_img = ProfileImage::where('profile_id', $user_profile->id)->first();

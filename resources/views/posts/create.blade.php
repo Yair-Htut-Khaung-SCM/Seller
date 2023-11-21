@@ -10,7 +10,7 @@ Create Post
     <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('home') }}</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('sale.post.index') }}">{{ __('posts') }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('sale.index') }}">{{ __('posts') }}</a></li>
         <li class="breadcrumb-item active" aria-current="page">{{ __('create_post') }}</li>
       </ol>
     </nav>
@@ -21,7 +21,7 @@ Create Post
     </div>
     <!-- Input Boxs -->
     <div class=" content-2 p-4 mt-2 mb-3 bg-light rounded">
-      <form action="{{route('sale.post.store')}}" method="POST" enctype="multipart/form-data">
+      <form action="{{route('sale.store')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="mt-2">
           <!-- Image Upload -->

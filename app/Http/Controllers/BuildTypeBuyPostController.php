@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\GeneralType;
 use App\Models\Post;
 use App\Models\Image;
 use App\Models\BuildType;
@@ -51,37 +52,37 @@ class BuildTypeBuyPostController extends Controller
                 }
             })
             ->when(request('sort_name'),function($query) {
-                if (request('sort_name') == 'sort_name') {
+                if (request('sort_name') == GeneralType::sort_name) {
                     $query->Where('purpose','=','buy')->orderBy('manufacturer_id');
                 }
             })
             ->when(request('engine_power'),function($query) {
-                if (request('engine_power') == 'engine_power') {
+                if (request('engine_power') == GeneralType::engine_power) {
                     $query->Where('purpose','=','buy')->orderByDesc('engine_power');
                 }
             })
             ->when(request('latest_year'),function($query) {
-                if (request('latest_year') == 'latest_year') {
+                if (request('latest_year') == GeneralType::latest_year) {
                     $query->Where('purpose','=','buy')->orderByDesc('year');
                 }
             })
             ->when(request('latest_year'),function($query) {
-                if (request('latest_year') == 'latest_year_old') {
+                if (request('latest_year') == GeneralType::latest_year_old) {
                     $query->Where('purpose','=','buy')->orderBy('year');
                 }
             })
             ->when(request('post_status'),function($query) {
-                if (request('post_status') == 'post_old') {
+                if (request('post_status') == GeneralType::post_old) {
                     $query->Where('purpose','=','buy')->orderBy('created_at');
                 }
             })
             ->when(request('post_status'),function($query) {
-                if (request('post_status') == 'post_new') {
+                if (request('post_status') == GeneralType::post_new) {
                     $query->Where('purpose','=','buy')->orderByDesc('created_at');
                 }
             })
             ->when(request('build_type_id'),function($query) {
-                if (request('build_type_id') == 'build_type_id') {
+                if (request('build_type_id') == GeneralType::build_type_id) {
                     $query->Where('purpose','=','buy')->orderBy('created_at');
                 }
             })
@@ -89,8 +90,8 @@ class BuildTypeBuyPostController extends Controller
                     $query->Where('purpose','=','buy')->where('condition', 'like', '%' . request('condition_status') . '%');
                 
             })
-            ->where('purpose','=','buy')
-            ->where('is_published','=','1')
+            ->where('purpose','=',GeneralType::purpose_buy)
+            ->where('is_published','=', GeneralType::is_published)
             ->orderBy('id')
             ->paginate(12)
             ->withQueryString();

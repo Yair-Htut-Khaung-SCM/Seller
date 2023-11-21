@@ -15,7 +15,7 @@
                 </nav>
             </div>
             <div class="col-12 col-md-4">
-                <form class="d-flex" action="{{ route('buy.post.index') }}" method="get">
+                <form class="d-flex" action="{{ route('buy.index') }}" method="get">
 
                     @if( request('multi_manufacturer_id') )
                     @php($manufact = request('multi_manufacturer_id'))
@@ -81,7 +81,7 @@
         <div class="d-flex justify-content-end mb-2">
             <div class="col-11">
                 
-                @if( request()->fullUrl()==route('buy.post.index') )
+                @if( request()->fullUrl()==route('buy.index') )
                 <h4>{{ __('latest_upload') }}</h4>
                 @else
                 <h5 class="text-black"><span class="text-muted"><i class="fa-solid fa-filter me-1" style="color:#12ca8a"></i>Showing Search Result : </span>
@@ -119,7 +119,7 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>
-                            <form action="{{ route('buy.post.index') }}">
+                            <form action="{{ route('buy.index') }}">
                                
                                 @if( request('multi_manufacturer_id') )
                                 @php($manufacturers_car = request('multi_manufacturer_id'))
@@ -194,7 +194,7 @@
                             </form>
                         </li>
                         <li>
-                            <form action="{{ route('buy.post.index') }}">
+                            <form action="{{ route('buy.index') }}">
                                 @if( request('multi_manufacturer_id') )
                                 @php($manufacturers_car = request('multi_manufacturer_id'))
                                 @foreach($manufacturers_car as $manufacturer)
@@ -268,7 +268,7 @@
                             </form>
                         </li>
                         <li>
-                            <form action="{{ route('buy.post.index') }}">
+                            <form action="{{ route('buy.index') }}">
 
                                 @if( request('multi_manufacturer_id') )
                                 @php($manufacturers_car = request('multi_manufacturer_id'))
@@ -343,7 +343,7 @@
                             </form>
                         </li>
                         <li>
-                            <form action="{{ route('buy.post.index') }}">
+                            <form action="{{ route('buy.index') }}">
 
                                 @if( request('multi_manufacturer_id') )
                                 @php($manufacturers_car = request('multi_manufacturer_id'))
@@ -418,7 +418,7 @@
                             </form>
                         </li>
                         <li>
-                            <form action="{{ route('buy.post.index') }}">
+                            <form action="{{ route('buy.index') }}">
 
                                 @if( request('multi_manufacturer_id') )
                                 @php($manufacturers_car = request('multi_manufacturer_id'))
@@ -493,7 +493,7 @@
                             </form>
                         </li>
                         <li>
-                            <form action="{{ route('buy.post.index') }}">
+                            <form action="{{ route('buy.index') }}">
 
                                 @if( request('multi_manufacturer_id') )
                                 @php($manufacturers_car = request('multi_manufacturer_id'))
@@ -568,7 +568,7 @@
                             </form>
                         </li>
                         <li>
-                            <form action="{{ route('buy.post.index') }}">
+                            <form action="{{ route('buy.index') }}">
 
                                 @if( request('multi_manufacturer_id') )
                                 @php($manufacturers_car = request('multi_manufacturer_id'))
@@ -643,7 +643,7 @@
                             </form>
                         </li>
                         <li>
-                            <form action="{{ route('buy.post.index') }}">
+                            <form action="{{ route('buy.index') }}">
 
                                 @if( request('multi_manufacturer_id') )
                                 @php($manufacturers_car = request('multi_manufacturer_id'))
@@ -846,7 +846,7 @@
             @foreach($posts as $post)
             <div class="mb-2">
                 {{--@include('components.buy-card')--}}
-                <x-card_lg purpose="buy" :route="route('buy.post.show', $post->id)" saleProfile="sale" :$post :$users :$profile_image />
+                <x-card_lg purpose="buy" :route="route('buy.show', $post->id)" saleProfile="sale" :$post :$users :$profile_image />
             </div>
             @endforeach
             <!-- End Columns --->

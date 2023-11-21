@@ -21,7 +21,7 @@
                 This is <i>Admin Users Database Table</i> for Super Admin Users Account who have access for Admin Dashboard in CarSeller Online Shopping Platform.
             </div>
         </div>
-        <a href="/admin/register" style="text-decoration: none; color: #ffffff; background-color: #63f2a9; padding: 10px; border-radius: 5px;">Create new admin account</a>
+        <a href="{{ route('admin.register.create') }}" style="text-decoration: none; color: #ffffff; background-color: #63f2a9; padding: 10px; border-radius: 5px;">Create new admin account</a>
         <br>
         <br>
         <div class="card mb-4">

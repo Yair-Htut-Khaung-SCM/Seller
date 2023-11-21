@@ -27,7 +27,7 @@
             <div class="">
               <form class="px-4 py-3" action="{{ route('admin.build-type.update', $build_type->id) }}" method="POST" enctype="multipart/form-data" >
                 @csrf
-
+                @method('PUT')
                 <!-- Build Type Image -->
                 <span class="position-relative">
                   <label for="image" id="upload_icon">

@@ -2,19 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\BuildType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\BuildTypeStoreRequest;
 use App\Http\Requests\Admin\BuildTypeUpdateRequest;
+use App\Services\Admin\BuildTypeService;
 
 class BuildTypeController extends Controller
 {
+    public function __construct(BuildTypeService $buildTypeService)
+    {
+        $this->buildTypeService = $buildTypeService;
+    }
+
     public function index()
     {
-        $build_types = BuildType::paginate(10);
-
+        $build_types = $this->buildTypeService->getDetail();
         return view('admin.build_types.index', compact('build_types'));
     }
 
@@ -25,58 +29,26 @@ class BuildTypeController extends Controller
 
     public function store(BuildTypeStoreRequest $request)
     {
-        $build_type = new BuildType();
-
-        $build_type->name = $request->name;
-
-        $build_type->save();
-
-        if ($request->hasfile('image')) {
-            $file = $request->file('image');
-            $filename = $build_type->id. '.png';
-            $file->move(public_path('/images/build_types'),$filename);
-        }
-
+        $build_type = $this->buildTypeService->saveBuildType($request);
         return redirect(route('admin.build-type.index'));
     }
 
     public function edit($id)
     {
-        $build_type = BuildType::find($id);
-
+        $build_type = $this->buildTypeService->getBuildTypeById($id);
         return view('admin.build_types.edit', compact('build_type'));
     }
 
     // BuildTypeUpdateRequest
     public function update(BuildTypeUpdateRequest $request, $id)
     {
-        $build_type = BuildType::find($id);
-        $build_type->name = $request->name;
-        $build_type->updated_at = now();
-
-        $build_type->save();
-
-        if ($request->hasfile('image')) {
-            $file = $request->file('image');
-            $filename = $build_type->id. '.png';
-            $file->move(public_path('/images/build_types'),$filename);
-        }
-
-        $build_types = BuildType::all();
-
-        return view('admin.build_types.index', compact('build_types'));
+        $build_type = $this->buildTypeService->updateBuildType($request, $id);
+        return redirect(route('admin.build-type.index'));
     }
 
     public function destroy($id)
     {
-        $build_type = BuildType::find($id);
-
-        if(File::exists(public_path('/images/build_types/' .$build_type->id. '.png'))) {
-            File::delete(public_path('/images/build_types/' .$build_type->id. '.png'));
-          } 
-
-        $build_type->delete();
-
+        $build_type =  $this->buildTypeService->deleteBuildType($id);
         return back();
     }
 }

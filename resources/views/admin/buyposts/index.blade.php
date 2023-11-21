@@ -66,11 +66,12 @@
                             <td>{{ $post->published_at }}</td>
                             <td>
                             <div class="d-flex">
-                                <form action="{{ route('admin.buy.post.update', $post->id ) }}" method="POST" >
+                                <form action="{{ route('admin.buy.update', $post->id ) }}" method="POST" >
                                     @csrf
+                                    @method('PUT')
                                     <button type="submit" class="btn btn-sm btn-outline-secondary fw-bold me-2">Edit</button>
                                 </form>
-                                <form action="{{ route('admin.buy.post.destroy', $post->id ) }}" method="POST" onclick="return confirm('Delete post will be permanently! Cannont be Undone! Are you sure?')">
+                                <form action="{{ route('admin.buy.destroy', $post->id ) }}" method="POST" onclick="return confirm('Delete post will be permanently! Cannont be Undone! Are you sure?')">
                                     @method('DELETE')
                                     @csrf
                                     <button type="submit" class="btn btn-outline-danger btn-sm fw-bold">Delete</button>

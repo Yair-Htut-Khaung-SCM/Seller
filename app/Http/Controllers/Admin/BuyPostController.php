@@ -2,26 +2,31 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Enums\GeneralType;
+use App\Services\Admin\PostService;
 
 class BuyPostController extends Controller
 {
+    public function __construct(PostService $postService)
+    {
+        $this->postService = $postService;
+    }
+
     public function index()
     {
-        $posts = Post::where('purpose','=','buy')->paginate(10);
-
+        $posts = $this->postService->getDetail(GeneralType::purpose_buy);
         return view('admin.buyposts.index', compact('posts'));
     }
 
     public function update($id)
     {
-        return redirect()->route('admin.buy.post.index')->with('error', 'This action is unavailable.');
+        return redirect()->route('admin.buy.index')->with('error', 'This action is unavailable.');
     }
 
     public function destroy($id)
     {
-        return redirect()->route('admin.buy.post.index')->with('error', 'This action is unavailable.');
+        return redirect()->route('admin.buy.index')->with('error', 'This action is unavailable.');
     }
 }

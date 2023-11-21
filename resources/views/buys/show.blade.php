@@ -56,7 +56,7 @@
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('home') }}</a>
-                <li class="breadcrumb-item"><a href="{{ route('buy.post.index') }}">{{ __('buy_post') }}</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('buy.index') }}">{{ __('buy_post') }}</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{ __('detail') }}</li>
             </ol>
         </nav>
@@ -222,7 +222,7 @@
                     <!-- Edit and Delete Button -->
                     @if (Auth::check() && $post->user_id == Auth::user()->id)
                     <div class="d-flex justify-content-between">
-                        <form action="{{ route('buy.post.delete', $post->id) }}" method="POST" onclick="return confirm('Delete Your Post! Are you sure?')">
+                        <form action="{{ route('buy.destroy', $post->id) }}" method="POST" onclick="return confirm('Delete Your Post! Are you sure?')">
                             @method('DELETE')
                             @csrf
                             <button type="submit" class="btn btn-outline-secondary fw-bold">
@@ -231,7 +231,7 @@
                             </button>
                         </form>
                         <p>
-                            <a href="{{ route('buy.post.edit', $post->id) }}" class="btn button fw-bold">
+                            <a href="{{ route('buy.edit', $post->id) }}" class="btn button fw-bold">
                                 <i class="fas fa-edit me-2"></i>
                                 {{ __('edit') }}
                             </a>
@@ -439,7 +439,7 @@
                                                 </button>
                                             </a>
 
-                                            <form action={{ url('components/card-sm/' . $comment->id) }} method="POST" id="deleteCmt">
+                                            <form action="{{ route('comment.destroy', $comment->id ) }}" method="POST" id="deleteCmt">
                                                 @csrf
                                                 @method('DELETE')
                                                 <div>
@@ -533,7 +533,7 @@
                             </h5>
                         </div>
                         <div class="col-4" style="font-size: 1.1rem; font-weight:600;">
-                            <a href="{{ route('buy.post.index') }}" class="float-end text-light text-decoration-none">
+                            <a href="{{ route('buy.index') }}" class="float-end text-light text-decoration-none">
                                 {{ __('see_all') }}
                             </a>
                         </div>
@@ -545,7 +545,7 @@
                             @foreach ($similar_posts as $post)
                             <div class="item m-3">
                                 {{--@include('components.card-sm')--}}
-                                <x-card_sm purpose="buy" :route="route('buy.post.show', $post->id)" saleProfile="sale" :$post :$users :$profile_image />
+                                <x-card_sm purpose="buy" :route="route('buy.show', $post->id)" saleProfile="sale" :$post :$users :$profile_image />
                             </div>
                             @endforeach
                         </div>
