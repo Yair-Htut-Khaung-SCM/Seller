@@ -316,7 +316,7 @@
                             </h5>
                         </div>
                         <div class="col-4" style="font-size: 1.1rem; font-weight:600;">
-                            <a href="{{ route('brand_new.buy.post.index','&condition=Brand New') }}" class="float-end text-light text-decoration-none" title="View Brand New Car List">
+                            <a href="{{ route('brand_new.buyPost','&condition=Brand New') }}" class="float-end text-light text-decoration-none" title="View Brand New Car List">
                                 {{ __('see_all') }}
                             </a>
                         </div>

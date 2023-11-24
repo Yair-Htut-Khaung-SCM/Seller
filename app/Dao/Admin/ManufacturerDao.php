@@ -32,10 +32,7 @@ class ManufacturerDao
 
     public function saveManufacturer($manufacturer)
     {
-        $manufacturers = new Manufacturer();
-        $manufacturers->name = $manufacturer->name;
-        $manufacturers->save();
-
+        $manufacturers = Manufacturer::create($manufacturer->all());
         return $manufacturers;
     }
 
@@ -47,7 +44,7 @@ class ManufacturerDao
 
     public function updateManufacturer($request, $id)
     {
-        $manufacturer = $this->getManufacturerById($id);
+        $manufacturer = Manufacturer::find($id);
         $manufacturer->name = $request->name;
         $manufacturer->updated_at = now();
         $manufacturer->save();
@@ -63,6 +60,30 @@ class ManufacturerDao
           } 
 
         $manufacturer->delete();
+        return $manufacturer;
+    }
+
+    public function getManufacturewithPostCount()
+    {
+        $manufacturer = Manufacturer::withCount('posts')->get()->toArray();
+        return $manufacturer;
+    }
+
+    public function getManufactureByLastYear($latest_year,$before_latest)
+    {
+        $manufacturer = Manufacturer::withCount(['posts' => function ($query) use ($latest_year,$before_latest) {
+            $query->Where('created_at', '>=',$latest_year)->Where('created_at', '<',$before_latest);
+        }])->get()->toArray();
+        
+        return $manufacturer;
+    }
+
+    public function getManufactureByLastMonth($latest_month)
+    {
+        $manufacturer = Manufacturer::withCount(['posts' => function ($query) use ($latest_month) {
+            $query->where('created_at', '>=', $latest_month);
+        }])->get()->toArray();
+        
         return $manufacturer;
     }
 

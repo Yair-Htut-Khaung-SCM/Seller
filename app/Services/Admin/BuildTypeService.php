@@ -64,4 +64,10 @@ class BuildTypeService
         return $build_type;
     }
 
+    public function getBuildTypewithPostCount()
+    {
+        $build_type = $this->buildTypeDao->getBuildTypewithPostCount();
+        return $build_type;
+    }
+
 }

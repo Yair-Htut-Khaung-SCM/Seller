@@ -56,7 +56,7 @@
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('home') }}</a>
-                <li class="breadcrumb-item"><a href="{{ route('sale.index') }}">{{ __('sale_post') }}</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('sale.index') }}">{{ __('sale_post') }}kkk</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{ __('detail') }}</li>
             </ol>
         </nav>

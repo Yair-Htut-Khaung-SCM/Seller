@@ -1,14 +1,10 @@
 <?php
 
-use App\Http\Controllers\BrandNewBuyPostController;
-use App\Http\Controllers\BrandNewSalePostController;
-use App\Http\Controllers\BuildTypeBuyPostController;
-use App\Http\Controllers\BuildTypeSalePostController;
+use App\Http\Controllers\BrandNewPostController;
 use App\Http\Controllers\LatestBuyPostController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
-use App\Http\Controllers\SalePostController;
-use App\Http\Controllers\BuyPostController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\FacebookController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LocalizationController;
@@ -18,8 +14,6 @@ use App\Http\Controllers\FavouriteSalePostController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LatestSalePostController;
-use App\Http\Controllers\ManufacturerBuyPostController;
-use App\Http\Controllers\ManufacturerSalePostController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
@@ -49,26 +43,26 @@ Route::resource('sale-favourite',FavouriteSalePostController::class)->except('cr
 
 // Post
 //salepost
-Route::resource('sale',SalePostController::class);
+Route::resource('sale',PostController::class);
 
 // Latest post
 Route::get('latest/buy/post', [LatestBuyPostController::class, 'index'])->name('latest.buy.post.index');  
 Route::get('latest/sale/post', [LatestSalePostController::class, 'index'])->name('latest.sale.post.index');  
 
 // Brand New post
-Route::get('brand_new/buy/post', [BrandNewBuyPostController::class, 'index'])->name('brand_new.buy.post.index');  
-Route::get('brand_new/sale/post', [BrandNewSalePostController::class, 'index'])->name('brand_new.sale.post.index');  
+Route::get('brand_new/buy/post', [BrandNewPostController::class, 'buyPostBrandNew'])->name('brand_new.buyPost');  
+Route::get('brand_new/sale/post', [BrandNewPostController::class, 'salePostBrandNew'])->name('brand_new.salePost');
 
-// Build Type 
-Route::get('build_type/buy/post', [BuildTypeBuyPostController::class, 'index'])->name('build_type.buy.post.index');
-Route::get('build_type/sale/post', [BuildTypeSalePostController::class, 'index'])->name('build_type.sale.post.index');
+// Build Type
+Route::get('build_type/buy/post', [BrandNewPostController::class, 'buyPostBuildType'])->name('build_type.buy.post.index');
+Route::get('build_type/sale/post', [BrandNewPostController::class, 'salePostBuildType'])->name('build_type.sale.post.index');
 
 // Manufacturers
-Route::get('manufacturer/buy/post', [ManufacturerBuyPostController::class, 'index'])->name('manufacturer.buy.post.index');
-Route::get('manufacturer/sale/post', [ManufacturerSalePostController::class, 'index'])->name('manufacturer.sale.post.index');
+Route::get('manufacturer/buy/post', [BrandNewPostController::class, 'buyPostManufacturer'])->name('manufacturer.buy.post.index');
+Route::get('manufacturer/sale/post', [BrandNewPostController::class, 'salePostManufacturer'])->name('manufacturer.sale.post.index');
 
 // BuyPost
-Route::resource('buy',BuyPostController::class);
+Route::resource('buy',PostController::class);
 
 //Language
 Route::get('localization/{locale}', [LocalizationController::class, 'index']);

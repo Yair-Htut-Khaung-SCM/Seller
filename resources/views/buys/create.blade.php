@@ -11,13 +11,13 @@ Create Post
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('home') }}">{{__('home')}}</a></li>
         <li class="breadcrumb-item"><a href="{{ route('buy.index') }}">{{__('posts')}}</a></li>
-        <li class="breadcrumb-item active" aria-current="page">{{__('sale_form')}}</li>
+        <li class="breadcrumb-item active" aria-current="page">{{__('buy_post')}}</li>
       </ol>
     </nav>
   </header>
   <div>
     <div class="bg-light rounded mt-2">
-      <h2 class="header-1 p-3 fw-bold " style="color:#12ca8a;">{{__('buy_post')}}</h2>
+      <h2 class="header-1 p-3 fw-bold " style="color:#12ca8a;">{{__('buy_form')}}</h2>
     </div>
     <!-- Input Boxs -->
     <div class=" content-2 p-4 mt-2 mb-3 bg-light rounded">

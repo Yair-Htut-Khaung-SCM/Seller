@@ -2,10 +2,7 @@
 
 namespace App\Dao\Admin;
 
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\ValidationException;
-use App\Models\AdminUser;
+use App\Models\Profile;
 
 class ProfileDao
 {
@@ -24,6 +21,12 @@ class ProfileDao
         $user->save();
 
         return $user;
+    }
+
+    public function getProfileByUserId($id)
+    {
+        $profile = Profile::where('user_id', $id)->firstOrFail();
+        return $profile;
     }
 
 }

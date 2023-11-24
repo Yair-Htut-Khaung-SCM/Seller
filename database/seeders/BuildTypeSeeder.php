@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\BuildType;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class BuildTypeSeeder extends Seeder

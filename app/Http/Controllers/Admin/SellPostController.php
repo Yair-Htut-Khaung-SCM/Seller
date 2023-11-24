@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Enums\GeneralType;
 use App\Services\Admin\PostService;
@@ -16,7 +15,7 @@ class SellPostController extends Controller
 
     public function index()
     {
-        $posts = $this->postService->getDetail(GeneralType::purpose_sale);
+        $posts = $this->postService->getDetail(GeneralType::PURPOSE_SALE);
         return view('admin.posts.index', compact('posts'));
     }
 

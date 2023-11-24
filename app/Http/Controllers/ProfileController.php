@@ -17,40 +17,46 @@ use App\Models\Manufacturer;
 use App\Models\PlateDivision;
 use App\Http\Requests\PostStoreRequest;
 use App\Http\Requests\PostUpdateRequest;
+use App\Services\Admin\PostService;
+use App\Services\Admin\ProfileService;
+use App\Services\Admin\UserService;
+use App\Services\ProfileImageService;
 
 class ProfileController extends Controller
 {
+    public function __construct(ProfileService $profileService, UserService $userService, ProfileImageService $profileImageService,PostService $postService)
+    {
+        $this->postService = $postService;
+        $this->profileService = $profileService;
+        $this->userService = $userService;
+        $this->profileImageService = $profileImageService;
+    }
+
     public function showown_sale()
     {
-
         $id = Auth::user()->id;
-        $user = User::where('id', $id)->first();
-        $user_profile = Profile::where('user_id', $id)->firstOrFail();
-        $user_img = ProfileImage::where('profile_id', $user_profile->id)->first();
-        $userbuy = User::all();
-        $usersale = User::all();
-        $users = User::all();
-        $profile_image = ProfileImage::all();
-        $posts =  Post::where('user_id','=',$id)
-        ->where('purpose','=',GeneralType::purpose_sale)->paginate(6);
-
+        $user = $this->userService->getUserById($id);
+        $user_profile = $this->profileService->getProfileByUserId($id);
+        $user_img = $this->profileImageService->getProfileImageByKey('profile_id',$user_profile->id);
+        $userbuy = $this->userService->getAll();
+        $usersale = $this->userService->getAll();
+        $users = $this->userService->getAll();
+        $profile_image = $this->profileImageService->getAll();
+        $posts = $this->postService->getPostByPurpose(GeneralType::PURPOSE_SALE, $id);
 
         return view('profile.showown_sale', compact('posts', 'user', 'user_profile', 'user_img', 'usersale', 'profile_image', 'users'));
     }
     public function showown_buy()
     {
-
         $id = Auth::user()->id;
-        $user = User::where('id', $id)->first();
-        $user_profile = Profile::where('user_id', $id)->firstOrFail();
-        $user_img = ProfileImage::where('profile_id', $user_profile->id)->first();
-        $userbuy = User::all();
-        $usersale = User::all();
-        $users = User::all();
-        $profile_image = ProfileImage::all();
-        $posts =  Post::where('user_id','=',$id)
-        ->where('purpose','=',GeneralType::purpose_buy)->paginate(6);
-
+        $user = $this->userService->getUserById($id);
+        $user_profile = $this->profileService->getProfileByUserId($id);
+        $user_img = $this->profileImageService->getProfileImageByKey('profile_id',$user_profile->id);
+        $userbuy = $this->userService->getAll();
+        $usersale = $this->userService->getAll();
+        $users = $this->userService->getAll();
+        $profile_image = $this->profileImageService->getAll();
+        $posts = $this->postService->getPostByPurpose(GeneralType::PURPOSE_BUY, $id);
 
         return view('profile.showown_buy', compact('posts', 'user', 'user_profile', 'user_img', 'userbuy', 'profile_image', 'users'));
     }
@@ -65,8 +71,8 @@ class ProfileController extends Controller
         $id = Auth::user()->id;
         $user = User::find($id);
 
-        $profile = Profile::where('user_id', $id)->first();
-
+        // $profile = Profile::where('user_id', $id)->first();
+        $profile = $this->profileService->getProfileByUserId($id);
         $user->name = $request->name;
         $user->email = $request->email;
         //$user->password = bcrypt($request->password);
@@ -83,14 +89,12 @@ class ProfileController extends Controller
             $filename = date('YmdHi') . $file->getClientOriginalName();
             $dir = 'upload/images/profile/' . $profile->id;
             $path = $file->storeAs($dir, $filename);
-            // $file->move(public_path('upload/images/'.$profile->id.'/profile'), $filename);
 
             if ($profile->profile_image) {
-                // dd($profile->profile_image);
-                // File::delete($profile->profile_image->path . '/' . $profile->profile_image->name);
                 Storage::delete($profile->profile_image->path . '/' . $profile->profile_image->name);
 
-                $image = ProfileImage::where('profile_id', $profile->id)->first();
+                $image = $this->profileImageService->getProfileImageByKey('profile_id',$profile->id);
+                // ProfileImage::where('profile_id', $profile->id)->first();
                 $image->name = $filename;
                 $image->url = url($dir . '/' . $filename);
                 $file = $file->move(public_path('upload/images/profile/'. $profile->id ), $filename); 
@@ -113,30 +117,28 @@ class ProfileController extends Controller
     }
     public function showsale_other($id)
     {
-        $userbuy = User::all();
-        $usersale = User::all();
-        $users = User::all();
-        $profile_image = ProfileImage::all();
-        $posts =  Post::where('user_id','=',$id)->where('purpose','=',GeneralType::purpose_sale)->where('is_published','=',GeneralType::is_published)->paginate(6);
-        $user = User::where('id', $id)->first();
-        $user_profile = Profile::where('user_id', $id)->first();
-        $user_img = ProfileImage::where('profile_id', $user_profile->id)->first();
-
+        $userbuy = $this->userService->getAll();
+        $usersale = $this->userService->getAll();
+        $users = $this->userService->getAll();
+        $profile_image = $this->profileImageService->getAll();
+        $posts = $this->postService->getOtherPostByPurpose(GeneralType::PURPOSE_SALE, $id);
+        $user = $this->userService->getUserById($id);
+        $user_profile = $this->profileService->getProfileByUserId($id);
+        $user_img = $this->profileImageService->getProfileImageByKey('profile_id',$user_profile->id);
 
         return view('profile.showsale', compact('posts', 'user', 'user_profile', 'user_img', 'usersale', 'userbuy', 'profile_image', 'users'));        
     }
 
     public function showbuy_other($id)
     {
-        $userbuy = User::all();
-        $usersale = User::all();
-        $users = User::all();
-        $profile_image = ProfileImage::all();
-        $posts =  Post::where('user_id','=',$id)->where('purpose','=',GeneralType::purpose_buy)->where('is_published','=',GeneralType::is_published)->paginate(6);
-        $user = User::where('id', $id)->first();
-        $user_profile = Profile::where('user_id', $id)->first();
-        $user_img = ProfileImage::where('profile_id', $user_profile->id)->first();
-        
+        $userbuy = $this->userService->getAll();
+        $usersale = $this->userService->getAll();
+        $users = $this->userService->getAll();
+        $profile_image = $this->profileImageService->getAll();
+        $posts = $this->postService->getOtherPostByPurpose(GeneralType::PURPOSE_BUY, $id);
+        $user = $this->userService->getUserById($id);
+        $user_profile = $this->profileService->getProfileByUserId($id);
+        $user_img = $this->profileImageService->getProfileImageByKey('profile_id',$user_profile->id);
         
         return view('profile.showbuy', compact('posts', 'user', 'user_profile', 'user_img', 'usersale', 'userbuy', 'profile_image', 'users'));
     }

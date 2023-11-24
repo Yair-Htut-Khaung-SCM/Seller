@@ -16,13 +16,13 @@ class FacebookController extends Controller
 {
     public function redirectToFacebook()
     {
-        return Socialite::driver(GeneralType::socialize_facebook)->redirect();
+        return Socialite::driver(GeneralType::SOCIALIZE_FACEBOOK)->redirect();
     }
 
     public function handleFacebookCallback()
     {
         try {
-            $user = Socialite::driver(GeneralType::socialize_facebook)->user();
+            $user = Socialite::driver(GeneralType::SOCIALIZE_FACEBOOK)->user();
 
             $finduser = User::where('facebook_id', $user->id)->first();
 
@@ -39,7 +39,7 @@ class FacebookController extends Controller
                 ]);
                 $profile = new Profile();
                 $profile->user_id = $newUser->id;
-                $profile->status = GeneralType::profile_status;
+                $profile->status = GeneralType::PROFILE_STATUS;
 
                 $profile->save();
 
@@ -61,7 +61,7 @@ class FacebookController extends Controller
                 ]);
                 $profile = new Profile();
                 $profile->user_id = $newUser->id;
-                $profile->status = GeneralType::profile_status;
+                $profile->status = GeneralType::PROFILE_STATUS;
 
                 $profile->save();
 

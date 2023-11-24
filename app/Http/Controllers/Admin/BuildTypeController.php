@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\BuildTypeStoreRequest;
 use App\Http\Requests\Admin\BuildTypeUpdateRequest;

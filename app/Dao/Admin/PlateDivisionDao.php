@@ -61,4 +61,10 @@ class PlateDivisionDao
         return $plate_division;
     }
 
+    public function getPlateDivisionWithPostCount()
+    {
+        $plate_division = PlateDivision::withCount('posts')->get()->toArray();
+        return $plate_division;
+    }
+
 }

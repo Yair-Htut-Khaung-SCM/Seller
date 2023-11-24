@@ -19,12 +19,22 @@ class PageController extends Controller
 {
     public function home()
     {
+        
+        // $posts = Post::with('user')->get();
+        // $posts = Post::with(['user' => function ($query) {
+        //     $query->select('id', 'name');
+        // }])->get()->toArray();
+        // $posts = Post::select('posts.*', 'users.name as user_name')
+        // ->join('users', 'users.id', '=', 'posts.user_id')
+        // ->with('user') // Eager load the full user relationship (optional)
+        // ->get()->toArray();
+        
         $manufacturers = Manufacturer::all();
         $build_types = BuildType::all();
-        $posts = Post::orderBy("id", "DESC")->where('is_published', '=', GeneralType::is_published)->limit(12)->get();
-        $buy_posts = Post::Where('purpose', '=', GeneralType::purpose_buy)->where('is_published', '=', GeneralType::is_published)->orderBy("id", "DESC")->limit(12)->get();
-        $sale_posts = Post::Where('purpose', '=', GeneralType::purpose_sale)->where('is_published', '=', GeneralType::is_published)->orderBy("id", "DESC")->limit(12)->get();
-        $brand_news = Post::Where('condition', '=', GeneralType::car_condition[0])->where('is_published', '=', GeneralType::is_published)->orderBy("id", "DESC")->limit(12)->get();
+        $posts = Post::orderBy("id", "DESC")->where('is_published', '=', GeneralType::IS_PUBLISHED)->limit(12)->get();
+        $buy_posts = Post::Where('purpose', '=', GeneralType::PURPOSE_BUY)->where('is_published', '=', GeneralType::IS_PUBLISHED)->orderBy("id", "DESC")->limit(12)->get();
+        $sale_posts = Post::Where('purpose', '=', GeneralType::PURPOSE_SALE)->where('is_published', '=', GeneralType::IS_PUBLISHED)->orderBy("id", "DESC")->limit(12)->get();
+        $brand_news = Post::Where('condition', '=', GeneralType::CAR_CONDITION[0])->where('is_published', '=', GeneralType::IS_PUBLISHED)->orderBy("id", "DESC")->limit(12)->get();
         $profile_image = ProfileImage::all();
         // Popular car dealer
         $users = User::all();
@@ -33,7 +43,7 @@ class PageController extends Controller
         $fav_array = array();
 
         foreach ($users as $user) {
-            $user_posts = Post::where('user_id', $user->id)->where('is_published', '=', GeneralType::is_published)->get('id');
+            $user_posts = Post::where('user_id', $user->id)->where('is_published', '=', GeneralType::IS_PUBLISHED)->get('id');
             $arr = array();
             foreach ($user_posts as $post) {
                 array_push($arr, $post->id);

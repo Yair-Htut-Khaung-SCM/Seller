@@ -23,4 +23,10 @@ class ProfileService
         return $user;
     }
 
+    public function getProfileByUserId($id)
+    {
+        $user = $this->profileDao->getProfileByUserId($id);
+        return $user;
+    }
+
 }

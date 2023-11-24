@@ -25,8 +25,8 @@
 
     <!-- Post List -->
     <div class="bg-light rounded my-2 text-center p-3">
-        <a href="{{ route('brand_new.buy.post.index') }}" class="text-decoration-none h3 mx-3 mt-5" style="color: #12ca8a">{{ __('buy_post') }}</a>
-        <a href="{{ route('brand_new.sale.post.index') }}" class="text-decoration-none h3 mx-3 mt-5" style="color: #12ca8a; border-bottom: 2px solid #12ca8a;">{{ __('sale_post') }}</a>
+        <a href="{{ route('brand_new.buyPost') }}" class="text-decoration-none h3 mx-3 mt-5" style="color: #12ca8a">{{ __('buy_post') }}</a>
+        <a href="{{ route('brand_new.salePost') }}" class="text-decoration-none h3 mx-3 mt-5" style="color: #12ca8a; border-bottom: 2px solid #12ca8a;">{{ __('sale_post') }}</a>
     </div>
 
 

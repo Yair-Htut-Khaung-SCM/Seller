@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\Admin\ManufacturerStoreRequest;
 use App\Http\Requests\Admin\ManufacturerUpdateRequest;
 use App\Services\Admin\ManufacturerService;

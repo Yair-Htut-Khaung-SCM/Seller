@@ -16,13 +16,13 @@ class GoogleController extends Controller
 {
     public function redirectToGoogle()
     {
-        return Socialite::driver(GeneralType::socialize_google)->redirect();
+        return Socialite::driver(GeneralType::SOCIALIZE_GOOGLE)->redirect();
     }
 
     public function handleGoogleCallback()
     {
         try {
-            $user = Socialite::driver(GeneralType::socialize_google)->user();
+            $user = Socialite::driver(GeneralType::SOCIALIZE_GOOGLE)->user();
 
             $finduser = User::where('google_id', $user->id)->first();
 
@@ -39,7 +39,7 @@ class GoogleController extends Controller
                 ]);
                 $profile = new Profile();
                 $profile->user_id = $newUser->id;
-                $profile->status = GeneralType::profile_status[0];
+                $profile->status = GeneralType::PROFILE_STATUS[0];
 
                 $profile->save();
 
@@ -62,7 +62,7 @@ class GoogleController extends Controller
                 ]);
                 $profile = new Profile();
                 $profile->user_id = $newUser->id;
-                $profile->status = GeneralType::profile_status[0];
+                $profile->status = GeneralType::PROFILE_STATUS[0];
 
                 $profile->save();
 

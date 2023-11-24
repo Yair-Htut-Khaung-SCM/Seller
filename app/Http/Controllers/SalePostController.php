@@ -21,7 +21,7 @@ class SalePostController extends Controller
 {
     public function index(Request $request)
     {
-       
+       dd($request);
         $manufacturers = Manufacturer::all();
         $build_types = BuildType::all();
         $profile_image = ProfileImage::all();
@@ -38,7 +38,7 @@ class SalePostController extends Controller
                         $mileage_min = request('mileage_min');
                         
                     }else{
-                        $mileage_min = GeneralType::default_mileage_min;
+                        $mileage_min = GeneralType::DEFAULT_MILEAGE_MIN;
                     }
 
                     if(request('mileage_max'))
@@ -46,7 +46,7 @@ class SalePostController extends Controller
                         $mileage_max = request('mileage_max');
                         
                     }else{
-                        $mileage_max = GeneralType::default_mileage_max;
+                        $mileage_max = GeneralType::DEFAULT_MILEAGE_MAX;
                     }
 
                      if(request('min_year'))
@@ -54,7 +54,7 @@ class SalePostController extends Controller
                         $min_year = request('min_year');
                         
                     }else{
-                        $min_year = GeneralType::default_min_year;
+                        $min_year = GeneralType::DEFAULT_MIN_YEAR;
                     }
 
                     
@@ -71,7 +71,7 @@ class SalePostController extends Controller
                         $min_price = request('min_price');
                         
                     }else{
-                        $min_price = GeneralType::default_min_price;
+                        $min_price = GeneralType::DEFAULT_MIN_PRICE;
                     }
 
                      if(request('max_price'))
@@ -79,41 +79,41 @@ class SalePostController extends Controller
                         $max_price = request('max_price');
                         
                     }else{
-                        $max_price = GeneralType::default_max_price;
+                        $max_price = GeneralType::DEFAULT_MAX_PRICE;
                     }
 
                     $order = 'manufacturer_id';
                     $orderBy = 'dec';
                     if (request('price') == 'desc') {
-                        $order = GeneralType::price;
+                        $order = GeneralType::PRICE;
                     }
                     if (request('price') == 'asc') {
-                        $order = GeneralType::price;
+                        $order = GeneralType::PRICE;
                         $orderBy = 'asc';
                     }
-                    if (request('engine_power') == GeneralType::ep_high_low) {
-                        $order = GeneralType::engine_power;
+                    if (request('engine_power') == GeneralType::EP_HIGH_LOW) {
+                        $order = GeneralType::ENGINE_POWER;
                     }
-                    if (request('engine_power') == GeneralType::ep_low_high) {
-                        $order = GeneralType::engine_power;
+                    if (request('engine_power') == GeneralType::EP_LOW_HIGH) {
+                        $order = GeneralType::ENGINE_POWER;
                         $orderBy = 'asc';
                     }
 
-                    if (request('latest_year') == GeneralType::latest_year) {
+                    if (request('latest_year') == GeneralType::LATEST_YEAR) {
                         $order = 'year';
                     }
 
-                    if (request('latest_year') == GeneralType::latest_year_old) {
+                    if (request('latest_year') == GeneralType::LATEST_YEAR_OLD) {
                         $order = 'year';
                         $orderBy = 'asc';
                     }
 
-                    if (request('post_status') == GeneralType::post_old) {
+                    if (request('post_status') == GeneralType::POST_OLD) {
                         $order = 'created_at';
                         $orderBy = 'asc';
                     }
 
-                    if (request('post_status') == GeneralType::post_new) {
+                    if (request('post_status') == GeneralType::POST_NEW) {
                         $order = 'created_at';
                     }
 
@@ -128,11 +128,11 @@ class SalePostController extends Controller
                                 if(request('condition_status')){
                                     $check_condition = request('condition_status');
                                     if(request('condition_status')[0] == 'Brand_New'){
-                                        $check_condition[0] = GeneralType::car_condition[0];
+                                        $check_condition[0] = GeneralType::CAR_CONDITION[0];
                                     }
                                     foreach($check_condition as $car){
                                      $query->orWhere('manufacturer_id','=',$each_id)
-                                     ->where('purpose','=',GeneralType::purpose_sale)
+                                     ->where('purpose','=',GeneralType::PURPOSE_SALE)
                                      ->where('mileage','>', $mileage_min)
                                      ->where('mileage','<', $mileage_max)  
                                      ->where('year','>', $min_year)
@@ -147,7 +147,7 @@ class SalePostController extends Controller
                                 } else {
                                     
                                 $query->orWhere('manufacturer_id','=',$each_id)
-                                ->where('purpose','=',GeneralType::purpose_sale)
+                                ->where('purpose','=',GeneralType::PURPOSE_SALE)
                                 ->where('mileage','>', $mileage_min)
                                 ->where('mileage','<', $mileage_max)  
                                 ->where('year','>', $min_year)
@@ -164,13 +164,13 @@ class SalePostController extends Controller
                                     if(request('condition_status')){
                                         $check_condition = request('condition_status');
                                         if(request('condition_status')[0] == 'Brand_New'){
-                                            $check_condition[0] = GeneralType::car_condition[0];
+                                            $check_condition[0] = GeneralType::CAR_CONDITION[0];
                                         }
                                         
                                         
                                         foreach($check_condition as $car){
                                         $query->orWhere('manufacturer_id','=',$each_id)
-                                        ->where('purpose','=',GeneralType::purpose_sale)
+                                        ->where('purpose','=',GeneralType::PURPOSE_SALE)
                                         ->where('mileage','>', $mileage_min)
                                         ->where('mileage','<', $mileage_max)  
                                         ->where('year','>', $min_year)
@@ -182,10 +182,10 @@ class SalePostController extends Controller
                                         }
                                     } else {
 
-                                        $check_condition = GeneralType::car_condition;
+                                        $check_condition = GeneralType::CAR_CONDITION;
                                         foreach($check_condition as $car){
                                         $query->orWhere('manufacturer_id','=',$each_id) 
-                                        ->where('purpose','=',GeneralType::purpose_sale)
+                                        ->where('purpose','=',GeneralType::PURPOSE_SALE)
                                         ->where('mileage','>', $mileage_min)
                                         ->where('mileage','<', $mileage_max)  
                                         ->where('year','>', $min_year)
@@ -201,7 +201,7 @@ class SalePostController extends Controller
                                         $fuels = request('fuel_types');
                                         foreach($fuels as $fuel){
                                          $query->orWhere('manufacturer_id','=',$each_id)
-                                         ->where('purpose','=',GeneralType::purpose_sale)
+                                         ->where('purpose','=',GeneralType::PURPOSE_SALE)
                                          ->where('mileage','>', $mileage_min)
                                          ->where('mileage','<', $mileage_max)  
                                          ->where('year','>', $min_year)
@@ -213,10 +213,10 @@ class SalePostController extends Controller
                                          ->orderByDesc($order);  
                                         }
                                     } else {
-                                        $fuels = GeneralType::fuels;
+                                        $fuels = GeneralType::FUELS;
                                         foreach($fuels as $fuel){
                                          $query->orWhere('manufacturer_id','=',$each_id)
-                                         ->where('purpose','=',GeneralType::purpose_sale)
+                                         ->where('purpose','=',GeneralType::PURPOSE_SALE)
                                          ->where('mileage','>', $mileage_min)
                                          ->where('mileage','<', $mileage_max)  
                                          ->where('year','>', $min_year)
@@ -232,7 +232,7 @@ class SalePostController extends Controller
                                     if(request('steer')){
                                         $steering = request('steer');
                                          $query->orWhere('manufacturer_id','=',$each_id)
-                                         ->where('purpose','=',GeneralType::purpose_sale)
+                                         ->where('purpose','=',GeneralType::PURPOSE_SALE)
                                          ->where('mileage','>', $mileage_min)
                                          ->where('mileage','<', $mileage_max)  
                                          ->where('year','>', $min_year)
@@ -244,9 +244,9 @@ class SalePostController extends Controller
                                          ->where('condition','=',$car)
                                          ->orderByDesc($order);  
                                     } else {
-                                        $steering = GeneralType::steering_left;
+                                        $steering = GeneralType::STEERING_LEFT;
                                         $query->orWhere('manufacturer_id','=',$each_id)
-                                        ->where('purpose','=',GeneralType::purpose_sale)
+                                        ->where('purpose','=',GeneralType::PURPOSE_SALE)
                                         ->where('mileage','>', $mileage_min)
                                         ->where('mileage','<', $mileage_max)  
                                         ->where('year','>', $min_year)
@@ -263,7 +263,7 @@ class SalePostController extends Controller
                                         $trans = request('transmissions');
                                         foreach($trans as $tran){
                                          $query->orWhere('manufacturer_id','=',$each_id)
-                                         ->where('purpose','=',GeneralType::purpose_sale)
+                                         ->where('purpose','=',GeneralType::PURPOSE_SALE)
                                          ->where('mileage','>', $mileage_min)
                                          ->where('mileage','<', $mileage_max)  
                                          ->where('year','>', $min_year)
@@ -280,7 +280,7 @@ class SalePostController extends Controller
                                         $transmissions = array("Auto", "Manual", "Semi Auto");
                                         foreach($transmissions as $tran){
                                             $query->orWhere('manufacturer_id','=',$each_id)
-                                            ->where('purpose','=',GeneralType::purpose_sale)
+                                            ->where('purpose','=',GeneralType::PURPOSE_SALE)
                                             ->where('mileage','>', $mileage_min)
                                             ->where('mileage','<', $mileage_max)  
                                             ->where('year','>', $min_year)
@@ -299,7 +299,7 @@ class SalePostController extends Controller
                                         $colors = request('car_colors');
                                         foreach($colors as $color){
                                          $query->orWhere('manufacturer_id','=',$each_id)
-                                         ->where('purpose','=',GeneralType::purpose_sale)
+                                         ->where('purpose','=',GeneralType::PURPOSE_SALE)
                                          ->where('mileage','>', $mileage_min)
                                          ->where('mileage','<', $mileage_max)  
                                          ->where('year','>', $min_year)
@@ -317,7 +317,7 @@ class SalePostController extends Controller
                                         $colors = array("Black", "Gray", "Gold", "Green", "Red", "Blue", "Brown");
                                         foreach($colors as $color){
                                          $query->orWhere('manufacturer_id','=',$each_id)
-                                         ->where('purpose','=',GeneralType::purpose_sale)
+                                         ->where('purpose','=',GeneralType::PURPOSE_SALE)
                                          ->where('mileage','>', $mileage_min)
                                          ->where('mileage','<', $mileage_max)  
                                          ->where('year','>', $min_year)
@@ -348,7 +348,7 @@ class SalePostController extends Controller
                                     }
                                     foreach($check_condition as $car){
                                      $query->orWhere('manufacturer_id','=',$each_id)
-                                     ->where('purpose','=',GeneralType::purpose_sale)
+                                     ->where('purpose','=',GeneralType::PURPOSE_SALE)
                                      ->where('mileage','>', $mileage_min)
                                      ->where('mileage','<', $mileage_max)  
                                      ->where('year','>', $min_year)
@@ -361,7 +361,7 @@ class SalePostController extends Controller
                                 } else {
                                     
                                 $query->orWhere('manufacturer_id','=',$each_id)
-                                ->where('purpose','=',GeneralType::purpose_sale)
+                                ->where('purpose','=',GeneralType::PURPOSE_SALE)
                                 ->where('mileage','>', $mileage_min)
                                 ->where('mileage','<', $mileage_max)  
                                 ->where('year','>', $min_year)
@@ -382,7 +382,7 @@ class SalePostController extends Controller
                                         }
                                         foreach($check_condition as $car){
                                         $query->orWhere('manufacturer_id','=',$each_id)
-                                        ->where('purpose','=',GeneralType::purpose_sale)
+                                        ->where('purpose','=',GeneralType::PURPOSE_SALE)
                                         ->where('mileage','>', $mileage_min)
                                         ->where('mileage','<', $mileage_max)  
                                         ->where('year','>', $min_year)
@@ -396,7 +396,7 @@ class SalePostController extends Controller
                                         $check_condition = array("Used","Brand New");
                                         foreach($check_condition as $car){
                                         $query->orWhere('manufacturer_id','=',$each_id) 
-                                        ->where('purpose','=',GeneralType::purpose_sale)
+                                        ->where('purpose','=',GeneralType::PURPOSE_SALE)
                                         ->where('mileage','>', $mileage_min)
                                         ->where('mileage','<', $mileage_max)  
                                         ->where('year','>', $min_year)
@@ -413,7 +413,7 @@ class SalePostController extends Controller
                                         $fuels = request('fuel_types');
                                         foreach($fuels as $fuel){
                                          $query->orWhere('manufacturer_id','=',$each_id)
-                                         ->where('purpose','=',GeneralType::purpose_sale)
+                                         ->where('purpose','=',GeneralType::PURPOSE_SALE)
                                          ->where('mileage','>', $mileage_min)
                                          ->where('mileage','<', $mileage_max)  
                                          ->where('year','>', $min_year)
@@ -428,7 +428,7 @@ class SalePostController extends Controller
                                         $fuels = array("Petrol", "Diesel", "CNG", "Electric");
                                         foreach($fuels as $fuel){
                                          $query->orWhere('manufacturer_id','=',$each_id)
-                                         ->where('purpose','=',GeneralType::purpose_sale)
+                                         ->where('purpose','=',GeneralType::PURPOSE_SALE)
                                          ->where('mileage','>', $mileage_min)
                                          ->where('mileage','<', $mileage_max)  
                                          ->where('year','>', $min_year)
@@ -444,7 +444,7 @@ class SalePostController extends Controller
                                     if(request('steer')){
                                         $steering = request('steer');
                                          $query->orWhere('manufacturer_id','=',$each_id)
-                                         ->where('purpose','=',GeneralType::purpose_sale)
+                                         ->where('purpose','=',GeneralType::PURPOSE_SALE)
                                          ->where('mileage','>', $mileage_min)
                                          ->where('mileage','<', $mileage_max)  
                                          ->where('year','>', $min_year)
@@ -456,9 +456,9 @@ class SalePostController extends Controller
                                          ->where('condition','=',$car)
                                          ->orderBy($order);  
                                     } else {
-                                        $steering = GeneralType::steering_left;
+                                        $steering = GeneralType::STEERING_LEFT;
                                         $query->orWhere('manufacturer_id','=',$each_id)
-                                        ->where('purpose','=',GeneralType::purpose_sale)
+                                        ->where('purpose','=',GeneralType::PURPOSE_SALE)
                                         ->where('mileage','>', $mileage_min)
                                         ->where('mileage','<', $mileage_max)  
                                         ->where('year','>', $min_year)
@@ -475,7 +475,7 @@ class SalePostController extends Controller
                                         $trans = request('transmissions');
                                         foreach($trans as $tran){
                                          $query->orWhere('manufacturer_id','=',$each_id)
-                                         ->where('purpose','=',GeneralType::purpose_sale)
+                                         ->where('purpose','=',GeneralType::PURPOSE_SALE)
                                          ->where('mileage','>', $mileage_min)
                                          ->where('mileage','<', $mileage_max)  
                                          ->where('year','>', $min_year)
@@ -492,7 +492,7 @@ class SalePostController extends Controller
                                         $transmissions = array("Auto", "Manual", "Semi Auto");
                                         foreach($transmissions as $tran){
                                             $query->orWhere('manufacturer_id','=',$each_id)
-                                            ->where('purpose','=',GeneralType::purpose_sale)
+                                            ->where('purpose','=',GeneralType::PURPOSE_SALE)
                                             ->where('mileage','>', $mileage_min)
                                             ->where('mileage','<', $mileage_max)  
                                             ->where('year','>', $min_year)
@@ -511,7 +511,7 @@ class SalePostController extends Controller
                                         $colors = request('car_colors');
                                         foreach($colors as $color){
                                          $query->orWhere('manufacturer_id','=',$each_id)
-                                         ->where('purpose','=',GeneralType::purpose_sale)
+                                         ->where('purpose','=',GeneralType::PURPOSE_SALE)
                                          ->where('mileage','>', $mileage_min)
                                          ->where('mileage','<', $mileage_max)  
                                          ->where('year','>', $min_year)
@@ -529,7 +529,7 @@ class SalePostController extends Controller
                                         $colors = array("Black", "Gray", "Gold", "Green", "Red", "Blue", "Brown");
                                         foreach($colors as $color){
                                          $query->orWhere('manufacturer_id','=',$each_id)
-                                         ->where('purpose','=',GeneralType::purpose_sale)
+                                         ->where('purpose','=',GeneralType::PURPOSE_SALE)
                                          ->where('mileage','>', $mileage_min)
                                          ->where('mileage','<', $mileage_max)  
                                          ->where('year','>', $min_year)
@@ -568,7 +568,7 @@ class SalePostController extends Controller
 
         
          ->when((request('car_status') == ''),function($query) {
-            $query->where('purpose','=',GeneralType::purpose_sale)->orderByDesc('purpose');
+            $query->where('purpose','=',GeneralType::PURPOSE_SALE)->orderByDesc('purpose');
          })
         ->where('is_published','=','1')
         ->orderByDesc('id')
@@ -580,18 +580,15 @@ class SalePostController extends Controller
        }
         else {
 
-
             // not multi maufacture id 
-
-
                 $posts = Post::when(request('lot'), function ($query) {
-                    $query->Where('purpose','=',GeneralType::purpose_sale)->where('id', 'like', '%' .  request('lot'));
+                    $query->Where('purpose','=',GeneralType::PURPOSE_SALE)->where('id', 'like', '%' .  request('lot'));
                 })
                 ->when(request('manufacturer_id'), function ($query) {
                     $query->where('manufacturer_id', request('manufacturer_id'));
                 })
-                ->when((request('car_status') == GeneralType::purpose_sale),function($query) {
-                    $query->where('purpose','=',GeneralType::purpose_sale)->orderByDesc('purpose');
+                ->when((request('car_status') == GeneralType::PURPOSE_SALE),function($query) {
+                    $query->where('purpose','=',GeneralType::PURPOSE_SALE)->orderByDesc('purpose');
                  })
 
                 // ->when(request('build_type_id'), function ($query) {
@@ -689,10 +686,10 @@ class SalePostController extends Controller
                     } 
                 })
                 ->when(request('steer'),function($query) {
-                    if (request('steer') == GeneralType::steering_left) {
-                        $query->where('steering_position','=',GeneralType::steering_left);
-                    } else if (request('steer') == GeneralType::steering_right) {
-                        $query->where('steering_position','=',GeneralType::steering_right);
+                    if (request('steer') == GeneralType::STEERING_LEFT) {
+                        $query->where('steering_position','=',GeneralType::STEERING_LEFT);
+                    } else if (request('steer') == GeneralType::STEERING_RIGHT) {
+                        $query->where('steering_position','=',GeneralType::STEERING_RIGHT);
                     }
                 })
 
@@ -704,17 +701,17 @@ class SalePostController extends Controller
                 ->when(request('condition_status'),function($query) {
                     $check_condition = request('condition_status');
                     if(request('condition_status')[0] == 'Brand_New'){
-                        $check_condition[0] = GeneralType::car_condition[0];
+                        $check_condition[0] = GeneralType::CAR_CONDITION[0];
                     }
                         
                     if(isset($check_condition[1])){
                        
                      }else if(isset($check_condition[0]) == null){
                        
-                     }else if(($check_condition[0]) == GeneralType::car_condition[0]){
-                         $query->where('condition','=', GeneralType::car_condition[0]);
-                     } else if((($check_condition[0]) == GeneralType::car_condition[1])){
-                         $query->where('condition','=', GeneralType::car_condition[1]);
+                     }else if(($check_condition[0]) == GeneralType::CAR_CONDITION[0]){
+                         $query->where('condition','=', GeneralType::CAR_CONDITION[0]);
+                     } else if((($check_condition[0]) == GeneralType::CAR_CONDITION[1])){
+                         $query->where('condition','=', GeneralType::CAR_CONDITION[1]);
                      } 
             
             
@@ -722,9 +719,9 @@ class SalePostController extends Controller
 
         
          ->when((request('car_status') == ''),function($query) {
-            $query->where('purpose','=',GeneralType::purpose_sale)->orderByDesc('created_at');
+            $query->where('purpose','=',GeneralType::PURPOSE_SALE)->orderByDesc('created_at');
          })
-         ->where('is_published','=',GeneralType::is_published)
+         ->where('is_published','=',GeneralType::IS_PUBLISHED)
         ->orderByDesc('id')
         ->paginate(12)
         ->withQueryString();
@@ -737,7 +734,7 @@ class SalePostController extends Controller
 
     public function create()
     {
-
+        dd('create');
         $manufacturers = Manufacturer::all();
         $build_types = BuildType::all();
         $plate_divisions = PlateDivision::all();
@@ -750,7 +747,7 @@ class SalePostController extends Controller
         $post = new Post();
         $post->user_id = Auth::user()->id;
         $post->manufacturer_id = $request->manufacturer_id;
-        $post->purpose = GeneralType::purpose_sale;
+        $post->purpose = GeneralType::PURPOSE_SALE;
         $post->condition = $request->condition;
         $post->car_model = $request->car_model;
         $post->year = $request->year;
@@ -810,7 +807,7 @@ class SalePostController extends Controller
         $build_types = BuildType::all();
         $plate_divisions = PlateDivision::all();
 
-        if ( (($post->is_published == 1 && $post->purpose == GeneralType::purpose_sale) || ($post->is_published == 0 && $post->purpose == GeneralType::purpose_sale)) && $post->user_id == Auth::user()->id ) {
+        if ( (($post->is_published == 1 && $post->purpose == GeneralType::PURPOSE_SALE) || ($post->is_published == 0 && $post->purpose == GeneralType::PURPOSE_SALE)) && $post->user_id == Auth::user()->id ) {
             return view('posts.edit', compact('post', 'manufacturers', 'build_types', 'plate_divisions'));
         }
     
@@ -842,7 +839,7 @@ class SalePostController extends Controller
 
         $post->manufacturer_id = $request->manufacturer_id;
         $post->condition = $request->condition;
-        $post->purpose = GeneralType::purpose_sale;
+        $post->purpose = GeneralType::PURPOSE_SALE;
         $post->car_model = $request->car_model;
         $post->year = $request->year;
         $post->price = $request->price;
@@ -906,24 +903,24 @@ class SalePostController extends Controller
 
         if (!empty($post) && Auth::user()) {
             $similar_posts = Post::where('manufacturer_id', '=', $post->manufacturer_id)
-                ->where('purpose', '=', GeneralType::purpose_sale)
+                ->where('purpose', '=', GeneralType::PURPOSE_SALE)
                 ->orWhere('condition', '=', $post->condition)
                 ->orWhere('build_type_id', '=', $post->build_type_id)
                 ->limit(15)
                 ->get();
 
-            if (($post->is_published == 1 && $post->purpose == GeneralType::purpose_sale) || ($post->is_published == 0 && $post->purpose == GeneralType::purpose_sale) && $post->user_id == Auth::user()->id) {
+            if (($post->is_published == 1 && $post->purpose == GeneralType::PURPOSE_SALE) || ($post->is_published == 0 && $post->purpose == GeneralType::PURPOSE_SALE) && $post->user_id == Auth::user()->id) {
                 return view('posts.show', compact('post', 'similar_posts', 'profile_image', 'usersale', 'users'));
             }
         } elseif (!empty($post) && !Auth::user()) {
             $similar_posts = Post::where('manufacturer_id', '=', $post->manufacturer_id)
-                ->where('purpose', '=', GeneralType::purpose_sale)
+                ->where('purpose', '=', GeneralType::PURPOSE_SALE)
                 ->orWhere('condition', '=', $post->condition)
                 ->orWhere('build_type_id', '=', $post->build_type_id)
                 ->limit(15)
                 ->get();
 
-            if (($post->is_published == 1 && $post->purpose == GeneralType::purpose_sale)) {
+            if (($post->is_published == 1 && $post->purpose == GeneralType::PURPOSE_SALE)) {
                 return view('posts.show', compact('post', 'similar_posts', 'profile_image', 'usersale', 'users'));
             }
             abort(404);

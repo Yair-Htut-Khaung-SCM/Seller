@@ -30,38 +30,44 @@ class PlateDivisionService
 
     public function savePlateDivision($request)
     {
-        $build_type = $this->plateDivisionDao->savePlateDivision($request);
+        $plate_division = $this->plateDivisionDao->savePlateDivision($request);
 
         if ($request->hasfile('image')) {
             $file = $request->file('image');
-            $filename = $build_type->id. '.png';
+            $filename = $plate_division->id. '.png';
             $file->move(public_path('/images/build_types'),$filename);
         }
-        return $build_type;
+        return $plate_division;
     }
 
     public function getPlateDivisionById($id)
     {
-        $build_type = $this->plateDivisionDao->getPlateDivisionById($id);
-        return $build_type;
+        $plate_division = $this->plateDivisionDao->getPlateDivisionById($id);
+        return $plate_division;
     }
 
     public function updatePlateDivision($request, $id)
     {
-        $build_type = $this->plateDivisionDao->updatePlateDivision($request, $id);
+        $plate_division = $this->plateDivisionDao->updatePlateDivision($request, $id);
 
         if ($request->hasfile('image')) {
             $file = $request->file('image');
-            $filename = $build_type->id. '.png';
+            $filename = $plate_division->id. '.png';
             $file->move(public_path('/images/build_types'),$filename);
         }
-        return $build_type;
+        return $plate_division;
     }
 
     public function deletePlateDivision($id)
     {
-        $build_type = $this->plateDivisionDao->deletePlateDivision($id);
-        return $build_type;
+        $plate_division = $this->plateDivisionDao->deletePlateDivision($id);
+        return $plate_division;
+    }
+
+    public function getPlateDivisionWithPostCount()
+    {
+       $plate_division = $this->plateDivisionDao->getPlateDivisionWithPostCount();
+       return $plate_division;
     }
 
 }

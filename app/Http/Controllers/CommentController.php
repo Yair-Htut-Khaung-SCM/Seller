@@ -4,41 +4,33 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CommentRequest;
-use App\Models\Post;
-use App\Models\Comment;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Supprt\Facades\Validator;
+use App\Services\CommentService;
 
 class CommentController extends Controller
 {
+    public function __construct(CommentService $commentService)
+    {
+        $this->commentService = $commentService;
+    }
+
     public function store(CommentRequest $request)
     {
         info(auth()->user()->id);
-
-        if (Post::where('id', $request->post_slug)->exists()) {
-            Comment::create([
-                'user_id' => Auth::user()->id,
-                'post_id' => $request->post_slug,
-                'comment' => $request->comment,
-                'parent_id' => $request->parent_id,
-            ]);
-        }
+        $comment = $this->commentService->saveComment($request);
         return back();
-
     }
-
 
     public function destroy($id)
     {
-        $comment = Comment::find($id);
-        $comment->delete();
+        $comment = $this->commentService->deleteComment($id);
         return back();
     }
 
     public function edit($id)
     {
-        $editComment = Comment::find($id);
+        $editComment = $this->commentService->getCommentById($id);
         return back()->with(['comment' => $editComment->comment]);
     }
     public function update(Request $request, $id)
@@ -49,9 +41,7 @@ class CommentController extends Controller
                 'updatecomment.required' => 'Update comment field is required',
                 'updatecomment.max' => 'Update comment must be less than 255 words'
             ]);
-        Comment::where('id', $id)->update([
-            'comment' => $request->updatecomment
-        ]);
+        $comment = $this->commentService->updateComment($request, $id);
         return back();
     }
 }

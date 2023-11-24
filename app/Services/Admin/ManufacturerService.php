@@ -64,4 +64,22 @@ class ManufacturerService
         return $manufacturer;
     }
 
+    public function getManufacturewithPostCount()
+    {
+        $manufacturer = $this->manufacturerDao->getManufacturewithPostCount();
+        return $manufacturer;
+    }
+
+    public function getManufactureByLastYear($latest_year,$before_latest)
+    {
+        $manufacturer = $this->manufacturerDao->getManufactureByLastYear($latest_year,$before_latest);
+        return $manufacturer;
+    }
+
+    public function getManufactureByLastMonth($latest_month)
+    {
+        $manufacturer = $this->manufacturerDao->getManufactureByLastMonth($latest_month);
+        return $manufacturer;
+    }
+
 }

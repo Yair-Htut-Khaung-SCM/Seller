@@ -54,27 +54,27 @@ class LatestSalePostController extends Controller
                 }
             })
             ->when(request('engine_power'),function($query) {
-                if (request('engine_power') == GeneralType::engine_power) {
+                if (request('engine_power') == GeneralType::ENGINE_POWER) {
                     $query->orderByDesc('engine_power');
                 }
             })
             ->when(request('latest_year'),function($query) {
-                if (request('latest_year') == GeneralType::latest_year) {
+                if (request('latest_year') == GeneralType::LATEST_YEAR) {
                     $query->orderByDesc('year');
                 }
             })
             ->when(request('latest_year'),function($query) {
-                if (request('latest_year') == GeneralType::latest_year_old) {
+                if (request('latest_year') == GeneralType::LATEST_YEAR_OLD) {
                     $query->orderBy('year');
                 }
             })
             ->when(request('post_status'),function($query) {
-                if (request('post_status') == GeneralType::post_old) {
+                if (request('post_status') == GeneralType::POST_OLD) {
                     $query->orderBy('created_at');
                 }
             })
             ->when(request('post_status'),function($query) {
-                if (request('post_status') == GeneralType::post_new) {
+                if (request('post_status') == GeneralType::POST_NEW) {
                     $query->orderByDesc('created_at');
                 }
             })
@@ -82,8 +82,8 @@ class LatestSalePostController extends Controller
                     $query->where('condition', 'like', '%' . request('condition_status') . '%');
                 
             })
-            ->where('purpose','=', GeneralType::purpose_sale)
-            ->where('is_published','=', GeneralType::is_published)
+            ->where('purpose','=', GeneralType::PURPOSE_SALE)
+            ->where('is_published','=', GeneralType::IS_PUBLISHED)
             ->orderByDesc('id')
             ->paginate(12)
             ->withQueryString();

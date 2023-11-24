@@ -15,7 +15,7 @@ class FavouriteSalePostController extends Controller
     public function index()
     {
         $posts = Auth::user()->favourite_posts;
-        $sale_posts = collect($posts)->reverse()->where('purpose','=',GeneralType::purpose_sale);
+        $sale_posts = collect($posts)->reverse()->where('purpose','=',GeneralType::PURPOSE_SALE);
         $users = User::all();
         $profile_image = ProfileImage::all();
 

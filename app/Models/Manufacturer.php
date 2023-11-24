@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Post;
 
 class Manufacturer extends Model
 {
@@ -13,4 +14,9 @@ class Manufacturer extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
 }

@@ -65,5 +65,10 @@ class BuildTypeDao
         $build_type->delete();
         return $build_type;
     }
-
+    
+    public function getBuildTypewithPostCount()
+    {
+        $build_type = BuildType::withCount('posts')->get()->toArray();
+        return $build_type;
+    }
 }

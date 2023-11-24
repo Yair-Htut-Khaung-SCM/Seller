@@ -31,4 +31,16 @@ class UserDao
         return $user;
     }
 
+    public function getAll()
+    {
+        $user = User::all();
+        return $user;
+    }
+
+    public function getUserById($id)
+    {
+        $user = User::where('id', $id)->first();
+        return $user;
+    }
+
 }
