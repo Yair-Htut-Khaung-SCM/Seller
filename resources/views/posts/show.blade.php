@@ -56,7 +56,7 @@
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('home') }}</a>
-                <li class="breadcrumb-item"><a href="{{ route('sale.index') }}">{{ __('sale_post') }}kkk</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('sale.index') }}">{{ __('sale_post') }}</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{ __('detail') }}</li>
             </ol>
         </nav>
@@ -79,8 +79,9 @@
                         <a href="https://www.facebook.com/sharer/sharer.php?u=http://127.0.0.1:8000/sale/post/{{$postid}}&display=page" target="_blank" style="text-align: center; color:rgb(162, 157, 157);"><i class="fas fa-share-alt" id="share" style="font-size:24px;"></i></a>
                     </div>
                     @if (Auth::check() && !$post->likedBy(Auth::user()->id))
-                    <form action="{{ route('favourite.store', $post->id) }}" method="POST" class="col-1" style="width:fit-content; text-align:center;">
+                    <form action="{{ route('favourite.store') }}" method="POST" class="col-1" style="width:fit-content; text-align:center;">
                         @csrf
+                        <input type="hidden" name="post_id" id="post_id" value="{{$post->id}}">
                         <button type="submit" class="btn btn-default" title="Add to favorites" style="padding: 0; border: none; background: none;">
                             <img src="/images/icons/heart-outline.png" style="width: 36px; height: 36px;" alt="">
                         </button>
@@ -88,6 +89,7 @@
                     @else
                     <form action="{{ route('favourite.destroy', $post->id) }}" method="POST" class="col-1" style="text-align:center;">
                         @csrf
+                        @method('DELETE')
                         <button type="submit" class="btn btn-default" title="Remove from favorites" style="padding: 0; border: none; background: none;">
                             <img src="/images/icons/heart-full.png" style="width: 36px; height: 36px;" alt="">
                         </button>

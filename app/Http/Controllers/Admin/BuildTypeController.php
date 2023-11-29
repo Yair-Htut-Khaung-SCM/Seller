@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\BuildTypeStoreRequest;
 use App\Http\Requests\Admin\BuildTypeUpdateRequest;
+use App\Models\BuildType;
 use App\Services\Admin\BuildTypeService;
 
 class BuildTypeController extends Controller
@@ -31,22 +32,20 @@ class BuildTypeController extends Controller
         return redirect(route('admin.build-type.index'));
     }
 
-    public function edit($id)
+    public function edit(BuildType $build_type)
     {
-        $build_type = $this->buildTypeService->getBuildTypeById($id);
         return view('admin.build_types.edit', compact('build_type'));
     }
 
-    // BuildTypeUpdateRequest
-    public function update(BuildTypeUpdateRequest $request, $id)
+    public function update(BuildTypeUpdateRequest $request, BuildType $build_type)
     {
-        $build_type = $this->buildTypeService->updateBuildType($request, $id);
+        $build_type = $this->buildTypeService->updateBuildType($request, $build_type);
         return redirect(route('admin.build-type.index'));
     }
 
-    public function destroy($id)
+    public function destroy(BuildType $build_type)
     {
-        $build_type =  $this->buildTypeService->deleteBuildType($id);
+        $build_type =  $this->buildTypeService->deleteBuildType($build_type);
         return back();
     }
 }

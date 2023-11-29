@@ -8,6 +8,7 @@ use App\Models\Post;
 use App\Models\User;
 use App\Models\BuildType;
 use App\Models\Favourite;
+use App\Services\Admin\PostService;
 use Illuminate\Support\Arr;
 use App\Models\Manufacturer;
 use App\Models\ProfileImage;
@@ -17,24 +18,19 @@ use App\Enums\GeneralType;
 
 class PageController extends Controller
 {
+    public function __construct(PostService $postService)
+    {
+        $this->postService = $postService;
+    }
     public function home()
     {
         
-        // $posts = Post::with('user')->get();
-        // $posts = Post::with(['user' => function ($query) {
-        //     $query->select('id', 'name');
-        // }])->get()->toArray();
-        // $posts = Post::select('posts.*', 'users.name as user_name')
-        // ->join('users', 'users.id', '=', 'posts.user_id')
-        // ->with('user') // Eager load the full user relationship (optional)
-        // ->get()->toArray();
-        
         $manufacturers = Manufacturer::all();
         $build_types = BuildType::all();
-        $posts = Post::orderBy("id", "DESC")->where('is_published', '=', GeneralType::IS_PUBLISHED)->limit(12)->get();
-        $buy_posts = Post::Where('purpose', '=', GeneralType::PURPOSE_BUY)->where('is_published', '=', GeneralType::IS_PUBLISHED)->orderBy("id", "DESC")->limit(12)->get();
-        $sale_posts = Post::Where('purpose', '=', GeneralType::PURPOSE_SALE)->where('is_published', '=', GeneralType::IS_PUBLISHED)->orderBy("id", "DESC")->limit(12)->get();
-        $brand_news = Post::Where('condition', '=', GeneralType::CAR_CONDITION[0])->where('is_published', '=', GeneralType::IS_PUBLISHED)->orderBy("id", "DESC")->limit(12)->get();
+        $posts = Post::with('favourites')->where('is_published', '=', GeneralType::IS_PUBLISHED)->orderBy("id", "DESC")->limit(12)->get();
+        $buy_posts = $this->postService->getPostByStatus('purpose',GeneralType::PURPOSE_BUY);
+        $sale_posts = $this->postService->getPostByStatus('purpose',GeneralType::PURPOSE_SALE);
+        $brand_news = $this->postService->getPostByStatus('condition',GeneralType::CAR_CONDITION[0]);
         $profile_image = ProfileImage::all();
         // Popular car dealer
         $users = User::all();
@@ -84,7 +80,7 @@ class PageController extends Controller
                 array_push($popular_users_img, 'upload/images/profile/7/default_avatar.jpg');
             }
         }
-        return view('home', compact('posts', 'popular_users', 'popular_users_img', 'id_array', 'fav_array', 'post_total', 'total_array', 'manufacturers', 'build_types', 'brand_news', 'buy_posts', 'sale_posts', 'profile_image', 'users', 'user_count', 'build_type_count'));
+        return view('home', compact('posts', 'popular_users', 'popular_users_img', 'id_array', 'post_total', 'total_array', 'manufacturers', 'build_types', 'brand_news', 'buy_posts', 'sale_posts', 'profile_image', 'users', 'user_count', 'build_type_count'));
     }
 
     public function about()

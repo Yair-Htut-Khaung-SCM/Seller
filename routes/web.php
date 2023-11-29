@@ -1,19 +1,14 @@
 <?php
 
-use App\Http\Controllers\BrandNewPostController;
-use App\Http\Controllers\LatestBuyPostController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\FacebookController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LocalizationController;
-use App\Http\Controllers\FavouritePostController;
-use App\Http\Controllers\FavouriteBuyPostController;
-use App\Http\Controllers\FavouriteSalePostController;
+use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\LatestSalePostController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
@@ -31,35 +26,28 @@ Route::get('profile/sale/{id}', [ProfileController::class, 'showsale_other']);
 Route::get('profile/buy/{id}', [ProfileController::class, 'showbuy_other']);
 
 // // MyFav Post
-Route::get('post/favourite', [FavouritePostController::class, 'index'])->name('post.favourite')->middleware('auth', 'verified');
-Route::post('post/{id}/favourite', [FavouritePostController::class, 'store'])->name('favourite.store')->middleware('auth', 'verified');
-Route::post('post/{id}/destroy', [FavouritePostController::class, 'destroy'])->name('favourite.destroy')->middleware('auth', 'verified');
-
-// // MyFav Buy Post
-Route::resource('buy-favourite',FavouriteBuyPostController::class)->except('create','edit','update','show');
-
-// // MyFav Sale Post
-Route::resource('sale-favourite',FavouriteSalePostController::class)->except('create','edit','update','show');
+Route::get('post/favourite', [FavouriteController::class, 'index'])->name('post.favourite')->middleware('auth', 'verified');
+Route::resource('favourite',FavouriteController::class)->except('create','edit','update','index');
 
 // Post
 //salepost
 Route::resource('sale',PostController::class);
 
 // Latest post
-Route::get('latest/buy/post', [LatestBuyPostController::class, 'index'])->name('latest.buy.post.index');  
-Route::get('latest/sale/post', [LatestSalePostController::class, 'index'])->name('latest.sale.post.index');  
+Route::get('latest/buy/post', [PostController::class, 'buyPostLatest'])->name('latest.buy.post.index');  
+Route::get('latest/sale/post', [PostController::class, 'salePostLatest'])->name('latest.sale.post.index');  
 
 // Brand New post
-Route::get('brand_new/buy/post', [BrandNewPostController::class, 'buyPostBrandNew'])->name('brand_new.buyPost');  
-Route::get('brand_new/sale/post', [BrandNewPostController::class, 'salePostBrandNew'])->name('brand_new.salePost');
+Route::get('brand_new/buy/post', [PostController::class, 'buyPostBrandNew'])->name('brand_new.buyPost');  
+Route::get('brand_new/sale/post', [PostController::class, 'salePostBrandNew'])->name('brand_new.salePost');
 
 // Build Type
-Route::get('build_type/buy/post', [BrandNewPostController::class, 'buyPostBuildType'])->name('build_type.buy.post.index');
-Route::get('build_type/sale/post', [BrandNewPostController::class, 'salePostBuildType'])->name('build_type.sale.post.index');
+Route::get('build_type/buy/post', [PostController::class, 'buyPostBuildType'])->name('build_type.buy.post.index');
+Route::get('build_type/sale/post', [PostController::class, 'salePostBuildType'])->name('build_type.sale.post.index');
 
 // Manufacturers
-Route::get('manufacturer/buy/post', [BrandNewPostController::class, 'buyPostManufacturer'])->name('manufacturer.buy.post.index');
-Route::get('manufacturer/sale/post', [BrandNewPostController::class, 'salePostManufacturer'])->name('manufacturer.sale.post.index');
+Route::get('manufacturer/buy/post', [PostController::class, 'buyPostManufacturer'])->name('manufacturer.buy.post.index');
+Route::get('manufacturer/sale/post', [PostController::class, 'salePostManufacturer'])->name('manufacturer.sale.post.index');
 
 // BuyPost
 Route::resource('buy',PostController::class);

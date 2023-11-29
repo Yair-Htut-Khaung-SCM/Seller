@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Enums\GeneralType;
-use App\Models\Post;
-use App\Models\Profile;
 use App\Models\ProfileImage;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\User;
@@ -13,8 +11,6 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\ProfileStoreRequest;
-use App\Models\Manufacturer;
-use App\Models\PlateDivision;
 use App\Http\Requests\PostStoreRequest;
 use App\Http\Requests\PostUpdateRequest;
 use App\Services\Admin\PostService;

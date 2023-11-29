@@ -5,9 +5,6 @@ namespace App\Dao\Admin;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\Post;
-use Carbon\Carbon;
-use Illuminate\Support\Str;
-use DateTime;
 use App\Enums\GeneralType;
 
 class PostDao
@@ -192,68 +189,68 @@ class PostDao
 
     public function getManufauturerPost($request, $purpose)
     {
-        $posts = Post::when(request('lot'), function ($query) {
-            $query->Where('purpose','=', GeneralType::PURPOSE_BUY)->where('id', 'like', '%' .  request('lot'));
+        $posts = Post::when(request('lot'), function ($query) use ($purpose) {
+            $query->Where('purpose','=', $purpose)->where('id', 'like', '%' .  request('lot'));
         })
-            ->when(request('manufacturer_id'), function ($query) {
-                $query->Where('purpose','=',GeneralType::PURPOSE_BUY)->where('manufacturer_id', request('manufacturer_id'));
+            ->when(request('manufacturer_id'), function ($query) use ($purpose) {
+                $query->Where('purpose','=',$purpose)->where('manufacturer_id', request('manufacturer_id'));
             })
-            ->when(request('car_model'), function ($query) {
-                $query->Where('purpose','=',GeneralType::PURPOSE_BUY)->where('car_model', 'like', '%' . request('car_model') . '%');
+            ->when(request('car_model'), function ($query) use ($purpose){
+                $query->Where('purpose','=',$purpose)->where('car_model', 'like', '%' . request('car_model') . '%');
             })
-            ->when(request('build_type_id'), function ($query) {
-                $query->Where('purpose','=',GeneralType::PURPOSE_BUY)->where('build_type_id', request('build_type_id'));
+            ->when(request('build_type_id'), function ($query) use ($purpose) {
+                $query->Where('purpose','=',$purpose)->where('build_type_id', request('build_type_id'));
             })
-            ->when(request('condition'), function ($query) {
-                $query->Where('purpose','=',GeneralType::PURPOSE_BUY)->where('condition', 'like', '%' . request('condition') . '%');
+            ->when(request('condition'), function ($query) use ($purpose) {
+                $query->Where('purpose','=',$purpose)->where('condition', 'like', '%' . request('condition') . '%');
             })
-            ->when(request('price'), function ($query) {
+            ->when(request('price'), function ($query) use ($purpose) {
                 if (request('price') == 'desc') {
-                    $query->Where('purpose','=',GeneralType::PURPOSE_BUY)->orderByDesc('price');
+                    $query->Where('purpose','=',$purpose)->orderByDesc('price');
                 } else if (request('price') == 'asc') {
-                    $query->Where('purpose','=',GeneralType::PURPOSE_BUY)->orderBy('price');
+                    $query->Where('purpose','=',$purpose)->orderBy('price');
                 }
             })
-            ->when(request('sort_name'),function($query) {
+            ->when(request('sort_name'),function($query) use ($purpose) {
                 if (request('sort_name') == GeneralType::SORT_NAME) {
-                    $query->Where('purpose','=',GeneralType::PURPOSE_BUY)->orderBy('manufacturer_id');
+                    $query->Where('purpose','=',$purpose)->orderBy('manufacturer_id');
                 }
             })
-            ->when(request('engine_power'),function($query) {
+            ->when(request('engine_power'),function($query) use ($purpose) {
                 if (request('engine_power') == GeneralType::ENGINE_POWER) {
-                    $query->Where('purpose','=',GeneralType::PURPOSE_BUY)->orderByDesc('engine_power');
+                    $query->Where('purpose','=',$purpose)->orderByDesc('engine_power');
                 }
             })
-            ->when(request('latest_year'),function($query) {
+            ->when(request('latest_year'),function($query) use ($purpose) {
                 if (request('latest_year') == GeneralType::LATEST_YEAR) {
-                    $query->Where('purpose','=',GeneralType::PURPOSE_BUY)->orderByDesc('year');
+                    $query->Where('purpose','=',$purpose)->orderByDesc('year');
                 }
             })
-            ->when(request('latest_year'),function($query) {
+            ->when(request('latest_year'),function($query) use ($purpose) {
                 if (request('latest_year') == GeneralType::LATEST_YEAR_OLD) {
-                    $query->Where('purpose','=',GeneralType::PURPOSE_BUY)->orderBy('year');
+                    $query->Where('purpose','=',$purpose)->orderBy('year');
                 }
             })
-            ->when(request('post_status'),function($query) {
+            ->when(request('post_status'),function($query) use ($purpose) {
                 if (request('post_status') == GeneralType::POST_OLD) {
-                    $query->Where('purpose','=',GeneralType::PURPOSE_BUY)->orderBy('created_at');
+                    $query->Where('purpose','=',$purpose)->orderBy('created_at');
                 }
             })
-            ->when(request('post_status'),function($query) {
+            ->when(request('post_status'),function($query) use ($purpose) {
                 if (request('post_status') == GeneralType::POST_NEW) {
-                    $query->Where('purpose','=',GeneralType::PURPOSE_BUY)->orderByDesc('created_at');
+                    $query->Where('purpose','=',$purpose)->orderByDesc('created_at');
                 }
             })
-            ->when(request('build_type_id'),function($query) {
+            ->when(request('build_type_id'),function($query) use ($purpose) {
                 if (request('build_type_id') == 'build_type_id') {
-                    $query->Where('purpose','=',GeneralType::PURPOSE_BUY)->orderBy('created_at');
+                    $query->Where('purpose','=',$purpose)->orderBy('created_at');
                 }
             })
-            ->when(request('condition_status'),function($query) {
-                    $query->Where('purpose','=',GeneralType::PURPOSE_BUY)->where('condition', 'like', '%' . request('condition_status') . '%');
+            ->when(request('condition_status'),function($query) use ($purpose) {
+                    $query->Where('purpose','=',$purpose)->where('condition', 'like', '%' . request('condition_status') . '%');
                 
             })
-            ->where('purpose','=',GeneralType::PURPOSE_BUY)
+            ->where('purpose','=',$purpose)
             ->where('is_published','=',GeneralType::IS_PUBLISHED)
             ->orderBy('id')
             ->paginate(12)
@@ -840,7 +837,7 @@ class PostDao
         return $posts;
     }
 
-    public function savePost($request, $id = null)
+    public function savePost($request,  $purpose, $id = null)
     {
         $post = $id ?  Post::find($id) : new Post();
         if(!$id)
@@ -849,7 +846,7 @@ class PostDao
         }
 
         $post->manufacturer_id = $request->manufacturer_id;
-        $post->purpose = "buy";
+        $post->purpose = $purpose;
         $post->condition = $request->condition;
         $post->car_model = $request->car_model;
         $post->year = $request->year;
@@ -882,10 +879,10 @@ class PostDao
         return $post;
     }
 
-    public function getSimilarPost($post) 
+    public function getSimilarPost($post, $purpose) 
     {
         $post = Post::where('manufacturer_id', '=', $post->manufacturer_id)
-                ->where('purpose', '=', GeneralType::PURPOSE_BUY)
+                ->where('purpose', '=', $purpose)
                 ->orWhere('condition', '=', $post->condition)
                 ->orWhere('build_type_id', '=', $post->build_type_id)
                 ->limit(15)
@@ -911,6 +908,79 @@ class PostDao
     public function getOtherPostByPurpose($purpose, $id)
     {
         $post =  Post::where('user_id','=',$id)->where('purpose','=',$purpose)->where('is_published','=',GeneralType::IS_PUBLISHED)->paginate(6);
+        return $post;
+    }
+
+    public function getLatestPost($purpose)
+    {
+        $posts = Post::when(request('lot'), function ($query) use ($purpose) {
+            $query->Where('purpose','=',$purpose)->where('id', 'like', '%' .  request('lot'));
+        })
+            ->when(request('manufacturer_id'), function ($query) use ($purpose) {
+                $query->Where('purpose','=',$purpose)->where('manufacturer_id', request('manufacturer_id'));
+            })
+            ->when(request('car_model'), function ($query) use ($purpose) {
+                $query->Where('purpose','=',$purpose)->where('car_model', 'like', '%' . request('car_model') . '%');
+            })
+            ->when(request('build_type_id'), function ($query) use ($purpose) {
+                $query->Where('purpose','=',$purpose)->where('build_type_id', request('build_type_id'));
+            })
+            ->when(request('condition'), function ($query) use ($purpose) {
+                $query->Where('purpose','=',$purpose)->where('condition', 'like', '%' . request('condition') . '%');
+            })
+            ->when(request('price'), function ($query) use ($purpose) {
+                if (request('price') == 'desc') {
+                    $query->Where('purpose','=',$purpose)->orderByDesc('price');
+                } else if (request('price') == 'asc') {
+                    $query->Where('purpose','=',$purpose)->orderBy('price');
+                }
+            })
+            ->when(request('sort_name'),function($query) use ($purpose) {
+                if (request('sort_name') == 'sort_name') {
+                    $query->Where('purpose','=',$purpose)->orderBy('manufacturer_id');
+                }
+            })
+            ->when(request('engine_power'),function($query) use ($purpose) {
+                if (request('engine_power') == 'engine_power') {
+                    $query->Where('purpose','=',$purpose)->orderByDesc('engine_power');
+                }
+            })
+            ->when(request('latest_year'),function($query) use ($purpose) {
+                if (request('latest_year') == 'latest_year') {
+                    $query->Where('purpose','=',$purpose)->orderByDesc('year');
+                }
+            })
+            ->when(request('latest_year'),function($query) use ($purpose) {
+                if (request('latest_year') == 'latest_year_old') {
+                    $query->Where('purpose','=',$purpose)->orderBy('year');
+                }
+            })
+            ->when(request('post_status'),function($query) use ($purpose) {
+                if (request('post_status') == 'post_old') {
+                    $query->Where('purpose','=',$purpose)->orderBy('created_at');
+                }
+            })
+            ->when(request('post_status'),function($query) use ($purpose) {
+                if (request('post_status') == 'post_new') {
+                    $query->Where('purpose','=',$purpose)->orderByDesc('created_at');
+                }
+            })
+            ->when(request('condition_status'),function($query) use ($purpose) {
+                    $query->Where('purpose','=',$purpose)->where('condition', 'like', '%' . request('condition_status') . '%');
+                
+            })
+            ->where('purpose','=',$purpose)
+            ->where('is_published','=',GeneralType::IS_PUBLISHED)
+            ->orderByDesc('id')
+            ->paginate(12)
+            ->withQueryString();
+        
+        return $posts;
+    }
+
+    public function getPostByStatus($column, $status)
+    {
+        $post = Post::Where($column, '=', $status)->where('is_published', '=', GeneralType::IS_PUBLISHED)->orderBy("id", "DESC")->limit(12)->get();
         return $post;
     }
 

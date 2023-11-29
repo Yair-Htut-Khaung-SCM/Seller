@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\GeneralType;
 
+use App\Models\ProfileImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\PostStoreRequest;
@@ -55,7 +56,7 @@ class PostController extends Controller
     public function store(PostStoreRequest $request)
     {
         //Create New Post
-        $post = $this->postService->savePost($request);
+        $post = $this->postService->savePost($request,$this->path);
         return redirect(route($this->path.'.show', $post->id));
     }
 
@@ -66,14 +67,14 @@ class PostController extends Controller
         $build_types = $this->buildTypeService->getAll();
         $plate_divisions = $this->plateDivisionService->getAll();
 
-        if ((($post->is_published == 1 && $post->purpose == GeneralType::PURPOSE_BUY) || ($post->is_published == 0 && $post->purpose == GeneralType::PURPOSE_BUY)) && $post->user_id == Auth::user()->id) {
-            return view('buys.edit', compact('post', 'manufacturers', 'build_types', 'plate_divisions'));
+        if ((($post->is_published == 1 && $post->purpose == $this->path) || ($post->is_published == 0 && $post->purpose == $this->path)) && $post->user_id == Auth::user()->id) {
+            return view($this->view .'.edit', compact('post', 'manufacturers', 'build_types', 'plate_divisions'));
         }
         abort(403);
     }
     public function update(PostUpdateRequest $request, $id)
     {
-        $post = $this->postService->updatePost($request, $id);
+        $post = $this->postService->updatePost($request, $id, $this->path);
         return redirect(route($this->path . '.show', $post->id));
     }
 
@@ -86,16 +87,16 @@ class PostController extends Controller
         $users = $this->userService->getAll();
 
         if (!empty($post) && Auth::user()) {
-            $similar_posts = $this->postService->getSimilarPost($post);
-            if (($post->is_published == 1 && $post->purpose == GeneralType::PURPOSE_BUY) || ($post->is_published == 0 && $post->purpose == GeneralType::PURPOSE_BUY) && $post->user_id == Auth::user()->id) {
-                return view('buys.show', compact('post', 'similar_posts', 'profile_image', 'userbuy', 'users'));
+            $similar_posts = $this->postService->getSimilarPost($post, $this->path); //get buy or sale from $this->path
+            if (($post->is_published == 1 && $post->purpose == $this->path) || ($post->is_published == 0 && $post->purpose == $this->path) && $post->user_id == Auth::user()->id) {
+                return view($this->view .'.show', compact('post', 'similar_posts', 'profile_image', 'userbuy', 'users'));
             }
 
         } elseif (!empty($post) && !Auth::user()) {
-            $similar_posts = $this->postService->getSimilarPost($post);
+            $similar_posts = $this->postService->getSimilarPost($post, $this->path);
 
-            if (($post->is_published == 1 && $post->purpose == GeneralType::PURPOSE_BUY)) {
-                return view('buys.show', compact('post', 'similar_posts', 'profile_image', 'userbuy', 'users'));
+            if (($post->is_published == 1 && $post->purpose == $this->path)) {
+                return view($this->view .'.show', compact('post', 'similar_posts', 'profile_image', 'userbuy', 'users'));
             }
             abort(404);
         }
@@ -109,5 +110,101 @@ class PostController extends Controller
     {
         $post = $this->postService->deletePost($id);
         return redirect(route($this->path.'.index'));
+    }
+
+    public function buyPostBrandNew(Request $request)
+    {
+        $manufacturers = $this->manufacturerService->getAll();
+        $build_types = $this->buildTypeService->getAll();
+        $profile_image = ProfileImage::all();
+        $users = $this->userService->getAll();
+        $posts = $this->postService->getBrandNewPost($request, GeneralType::PURPOSE_BUY);
+
+        return view('buys.brand_new', compact('posts', 'manufacturers', 'build_types',  'profile_image', 'users'));
+    }
+
+    public function salePostBrandNew(Request $request)
+    {
+        $manufacturers = $this->manufacturerService->getAll();
+        $build_types = $this->buildTypeService->getAll();
+        $profile_image = ProfileImage::all();
+        $users = $this->userService->getAll();
+        $posts = $this->postService->getBrandNewPost($request, GeneralType::PURPOSE_SALE);
+
+        return view('posts.brand_new', compact('posts', 'manufacturers', 'build_types',  'profile_image', 'users'));
+    }
+
+    public function buyPostBuildType(Request $request)
+    {
+        $manufacturers = $this->manufacturerService->getAll();
+        $build_types = $this->buildTypeService->getAll();
+        $profile_image = ProfileImage::all();
+        $users = $this->userService->getAll();
+        $build_type_count = $this->buildTypeService->getCount();
+
+        $posts = $this->postService->getBuildTypePost($request, GeneralType::PURPOSE_BUY);
+
+        return view('buys.build_type', compact('posts', 'manufacturers', 'build_types',  'profile_image', 'users', 'build_type_count'));
+    }
+
+    public function salePostBuildType(Request $request)
+    {
+        $manufacturers = $this->manufacturerService->getAll();
+        $build_types = $this->buildTypeService->getAll();
+        $profile_image = ProfileImage::all();
+        $users = $this->userService->getAll();
+        $build_type_count = $this->buildTypeService->getCount();
+
+        $posts = $this->postService->getBuildTypePost($request, GeneralType::PURPOSE_SALE);
+
+        return view('buys.build_type', compact('posts', 'manufacturers', 'build_types',  'profile_image', 'users', 'build_type_count'));
+    }
+
+    public function buyPostManufacturer(Request $request)
+    {
+        $manufacturers = $this->manufacturerService->getAll();
+        $build_types = $this->buildTypeService->getAll();
+        $profile_image = ProfileImage::all();
+        $users = $this->userService->getAll();
+        $manufacturer_count = $this->manufacturerService->getCount();
+
+        $posts = $this->postService->getManufauturerPost($request, GeneralType::PURPOSE_BUY);
+
+        return view('buys.manufacturer', compact('posts', 'manufacturers', 'build_types',  'profile_image', 'users', 'manufacturer_count'));
+    }
+
+    public function salePostManufacturer(Request $request)
+    {
+        $manufacturers = $this->manufacturerService->getAll();
+        $build_types = $this->buildTypeService->getAll();
+        $profile_image = ProfileImage::all();
+        $users = $this->userService->getAll();
+        $manufacturer_count = $this->manufacturerService->getCount();
+
+        $posts = $this->postService->getManufauturerPost($request, GeneralType::PURPOSE_SALE);
+
+        return view('buys.manufacturer', compact('posts', 'manufacturers', 'build_types',  'profile_image', 'users', 'manufacturer_count'));
+    }
+
+    public function buyPostLatest(Request $request)
+    {
+        $manufacturers = $this->manufacturerService->getAll();
+        $build_types = $this->buildTypeService->getAll();
+        $users = $this->userService->getAll();
+        $profile_image = ProfileImage::all();
+
+        $posts = $this->postService->getLatestPost(GeneralType::PURPOSE_BUY);
+        return view('buys.latest', compact('posts', 'manufacturers', 'build_types', 'profile_image', 'users'));
+    }
+
+    public function salePostLatest(Request $request)
+    {
+        $manufacturers = $this->manufacturerService->getAll();
+        $build_types = $this->buildTypeService->getAll();
+        $users = $this->userService->getAll();
+        $profile_image = ProfileImage::all();
+
+        $posts = $this->postService->getLatestPost(GeneralType::PURPOSE_SALE);
+        return view('posts.latest', compact('posts', 'manufacturers', 'build_types', 'profile_image', 'users'));
     }
 }

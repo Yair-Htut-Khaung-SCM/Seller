@@ -42,7 +42,7 @@
                 {{--<a href="{{ route('buy.create') }}" class="nav-item nav-link custom-nav-link @if( request()->url()==route('buy.create') ) active @endif">{{ __('create post') }}</a>--}}
 
                 @if( Auth::check())
-                <a href="{{ route('buy-favourite.index') }}" class="nav-item nav-link custom-nav-link @if( request()->url()==route('post.favourite') ) active @endif">{{__('my_fav')}}</a>
+                <a href="{{ route('favourite.show','buy') }}" class="nav-item nav-link custom-nav-link @if( request()->url()==route('post.favourite') ) active @endif">{{__('my_fav')}}</a>
 
                 <li class="nav-item dropdown ">
                     <a class="nav-link fw-bold dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

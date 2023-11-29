@@ -79,9 +79,9 @@ class PostService
         return $result;
     }
 
-    public function savePost($request)
+    public function savePost($request, $purpose)
     {
-        $post = $this->postDao->savePost($request);
+        $post = $this->postDao->savePost($request, $purpose);
         if ($request->hasfile('files')) {
             foreach ($request->file('files') as $file) {
 
@@ -94,7 +94,7 @@ class PostService
         return $post;
     }
 
-    public function updatePost($request, $id)
+    public function updatePost($request, $id, $purpose)
     {
         if ($request->undeletedFiles) {
             $images = $this->imageService->getUnDeletedFile($request, $id);
@@ -111,7 +111,7 @@ class PostService
             }
         }
 
-        $post = $this->postDao->savePost($request, $id);
+        $post = $this->postDao->savePost($request, $purpose, $id);
 
         if ($request->hasfile('files')) {
             foreach ($request->file('files') as $file) {
@@ -125,9 +125,9 @@ class PostService
         return $post;
     }
 
-    public function getSimilarPost($post)
+    public function getSimilarPost($post, $purpose)
     {
-        $post = $this->postDao->getSimilarPost($post);
+        $post = $this->postDao->getSimilarPost($post, $purpose);
         return $post;
     }
 
@@ -151,6 +151,18 @@ class PostService
     {
       $post = $this->postDao->getOtherPostByPurpose($purpose, $id);
       return $post;
+    }
+
+    public function getLatestPost($purpose)
+    {
+        $post = $this->postDao->getLatestPost($purpose);
+        return $post;
+    }
+
+    public function getPostByStatus($column, $status)
+    {
+        $post = $this->postDao->getPostByStatus($column, $status);
+        return $post;
     }
       
 }

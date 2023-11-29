@@ -3,12 +3,7 @@
 namespace App\Dao\Admin;
 
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\ValidationException;
 use App\Models\Manufacturer;
-use Carbon\Carbon;
-use Illuminate\Support\Str;
-use DateTime;
 
 class ManufacturerDao
 {
@@ -36,25 +31,14 @@ class ManufacturerDao
         return $manufacturers;
     }
 
-    public function getManufacturerById($id)
+    public function updateManufacturer($request, $manufacturer)
     {
-        $manufacturer = Manufacturer::find($id);
+        $manufacturer->update($request->all());
         return $manufacturer;
     }
 
-    public function updateManufacturer($request, $id)
+    public function deleteManufacturer($manufacturer)
     {
-        $manufacturer = Manufacturer::find($id);
-        $manufacturer->name = $request->name;
-        $manufacturer->updated_at = now();
-        $manufacturer->save();
-
-        return $manufacturer;
-    }
-
-    public function deleteManufacturer($id)
-    {
-        $manufacturer = $this->getManufacturerById($id);
         if(File::exists(public_path('/images/manufacturer_logos/' .$manufacturer->id. '.png'))) {
             File::delete(public_path('/images/manufacturer_logos/' .$manufacturer->id. '.png'));
           } 

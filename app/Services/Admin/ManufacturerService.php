@@ -40,12 +40,6 @@ class ManufacturerService
         return $manufacturer;
     }
 
-    public function getManufacturerById($id)
-    {
-        $manufacturer = $this->manufacturerDao->getManufacturerById($id);
-        return $manufacturer;
-    }
-
     public function updateManufacturer($request, $id)
     {
         $manufacturer = $this->manufacturerDao->updateManufacturer($request, $id);
@@ -58,9 +52,9 @@ class ManufacturerService
         return $manufacturer;
     }
 
-    public function deleteManufacturer($id)
+    public function deleteManufacturer($manufacturer)
     {
-        $manufacturer = $this->manufacturerDao->deleteManufacturer($id);
+        $manufacturer = $this->manufacturerDao->deleteManufacturer($manufacturer);
         return $manufacturer;
     }
 

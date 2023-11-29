@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ManufacturerStoreRequest;
 use App\Http\Requests\Admin\ManufacturerUpdateRequest;
+use App\Models\Manufacturer;
 use App\Services\Admin\ManufacturerService;
 
 class ManufacturerController extends Controller
@@ -31,21 +32,20 @@ class ManufacturerController extends Controller
         return redirect(route('admin.manufacturer.index'));
     }
 
-    public function edit($id)
+    public function edit(Manufacturer $manufacturer)
     {
-        $manufacturer = $this->manufacturerService->getManufacturerById($id);
         return view('admin.manufacturers.edit', compact('manufacturer'));
     }
 
-    public function update(ManufacturerUpdateRequest $request, $id)
+    public function update(ManufacturerUpdateRequest $request, Manufacturer $manufacturer)
     {
-        $manufacturer = $this->manufacturerService->updateManufacturer($request, $id);
+        $manufacturer = $this->manufacturerService->updateManufacturer($request, $manufacturer);
         return redirect(route('admin.manufacturer.index'));
     }
 
-    public function destroy($id)
+    public function destroy(Manufacturer $manufacturer)
     {
-        $manufacturer =  $this->manufacturerService->deleteManufacturer($id);
+        $manufacturer =  $this->manufacturerService->deleteManufacturer($manufacturer);
         return back();
     }
 }

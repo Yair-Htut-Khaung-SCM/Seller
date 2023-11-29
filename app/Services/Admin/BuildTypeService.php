@@ -40,12 +40,6 @@ class BuildTypeService
         return $build_type;
     }
 
-    public function getBuildTypeById($id)
-    {
-        $build_type = $this->buildTypeDao->getBuildTypeById($id);
-        return $build_type;
-    }
-
     public function updateBuildType($request, $id)
     {
         $build_type = $this->buildTypeDao->updateBuildType($request, $id);

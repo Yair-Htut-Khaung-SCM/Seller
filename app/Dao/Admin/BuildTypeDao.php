@@ -3,12 +3,7 @@
 namespace App\Dao\Admin;
 
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\ValidationException;
 use App\Models\BuildType;
-use Carbon\Carbon;
-use Illuminate\Support\Str;
-use DateTime;
 
 class BuildTypeDao
 {
@@ -32,32 +27,18 @@ class BuildTypeDao
 
     public function saveBuildType($request)
     {
-        $build_type = new BuildType();
-        $build_type->name = $request->name;
-        $build_type->save();
-
+        $build_type = BuildType::create($request->all());
         return $build_type;
     }
 
-    public function getBuildTypeById($id)
+    public function updateBuildType($request, $build_type)
     {
-        $build_type = BuildType::find($id);
+        $build_type->update($request->all());
         return $build_type;
     }
 
-    public function updateBuildType($request, $id)
+    public function deleteBuildType($build_type)
     {
-        $build_type = $this->getBuildTypeById($id);
-        $build_type->name = $request->name;
-        $build_type->updated_at = now();
-        $build_type->save();
-
-        return $build_type;
-    }
-
-    public function deleteBuildType($id)
-    {
-        $build_type = $this->getBuildTypeById($id);
         if(File::exists(public_path('/images/build_types/' .$build_type->id. '.png'))) {
             File::delete(public_path('/images/build_types/' .$build_type->id. '.png'));
           } 

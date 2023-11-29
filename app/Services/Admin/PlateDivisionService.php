@@ -40,15 +40,9 @@ class PlateDivisionService
         return $plate_division;
     }
 
-    public function getPlateDivisionById($id)
+    public function updatePlateDivision($request, $plate_division)
     {
-        $plate_division = $this->plateDivisionDao->getPlateDivisionById($id);
-        return $plate_division;
-    }
-
-    public function updatePlateDivision($request, $id)
-    {
-        $plate_division = $this->plateDivisionDao->updatePlateDivision($request, $id);
+        $plate_division = $this->plateDivisionDao->updatePlateDivision($request, $plate_division);
 
         if ($request->hasfile('image')) {
             $file = $request->file('image');
@@ -58,9 +52,9 @@ class PlateDivisionService
         return $plate_division;
     }
 
-    public function deletePlateDivision($id)
+    public function deletePlateDivision($plate_division)
     {
-        $plate_division = $this->plateDivisionDao->deletePlateDivision($id);
+        $plate_division = $this->plateDivisionDao->deletePlateDivision($plate_division);
         return $plate_division;
     }
 

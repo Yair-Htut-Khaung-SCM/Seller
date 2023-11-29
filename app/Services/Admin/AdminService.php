@@ -2,7 +2,6 @@
 
 namespace App\Services\Admin;
 
-use Illuminate\Support\Facades\File;
 use App\Dao\Admin\AdminDao;
 
 class AdminService

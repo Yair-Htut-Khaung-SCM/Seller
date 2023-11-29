@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PlateDivisionStoreRequest;
+use App\Models\PlateDivision;
 use App\Services\Admin\PlateDivisionService;
 
 class PlateDivisionController extends Controller
@@ -30,21 +31,20 @@ class PlateDivisionController extends Controller
         return redirect(route('admin.plate-division.index'));
     }
 
-    public function edit($id)
+    public function edit(PlateDivision $plate_division)
     {
-        $plate_division = $this->plateDivisionService->getPlateDivisionById($id);
         return view('admin.plate_divisions.edit', compact('plate_division'));
     }
 
-    public function update(PlateDivisionStoreRequest $request, $id)
+    public function update(PlateDivisionStoreRequest $request, PlateDivision $plate_division)
     {
-        $plate_division = $this->plateDivisionService->updatePlateDivision($request, $id);
+        $plate_division = $this->plateDivisionService->updatePlateDivision($request, $plate_division);
         return redirect(route('admin.plate-division.index'));
     }
 
-    public function destroy($id)
+    public function destroy(PlateDivision $plate_division)
     {
-        $plate_division =  $this->plateDivisionService->deletePlateDivision($id);
+        $plate_division =  $this->plateDivisionService->deletePlateDivision($plate_division);
         return back();
     }
 }
