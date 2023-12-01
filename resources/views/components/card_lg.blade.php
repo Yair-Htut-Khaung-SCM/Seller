@@ -21,15 +21,17 @@
             <div class="favorite">
                 @if( Auth::check())
                 @if( ! $post->likedBy( Auth::user()->id ))
-                <form action="{{route('favourite.store',$post->id)}}" method="POST" style="width:fit-content;">
+                <form action="{{route('favourite.store')}}" method="POST" style="width:fit-content;">
                     @csrf
+                    <input type="hidden" name="post_id" id="post_id" value="{{$post->id}}">
                     <button type="submit" class="btn btn-default favorite_btn" title="Add to favorites" style="padding: 0; border: none; background: none;">
                         <img src="/images/icons/heart-outline.png" style="width: 25px; height: 25px;" alt="">
                     </button>
                 </form>
                 @else
-                <form action="{{route('favourite.destroy',$post->id)}}" method="POST">
+                <form action="{{route('favourite.destroy', $post->id)}}" method="POST">
                     @csrf
+                    @method('DELETE')
                     <button type="submit" class="btn btn-default favorite_btn" title="Remove from favorites" style="padding: 0; border: none; background: none;">
                         <img src="/images/icons/heart-full.png" style="width: 25px; height: 25px;" alt="">
                     </button>

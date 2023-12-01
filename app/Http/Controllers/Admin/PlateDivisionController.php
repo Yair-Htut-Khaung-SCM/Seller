@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\PlateDivision;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PlateDivisionStoreRequest;
+use App\Models\PlateDivision;
+use App\Services\Admin\PlateDivisionService;
 
 class PlateDivisionController extends Controller
 {
+    public function __construct(PlateDivisionService $plateDivisionService)
+    {
+        $this->plateDivisionService = $plateDivisionService;
+    }
+
     public function index()
     {
-        $plate_divisions = PlateDivision::paginate(10);
-
+        $plate_divisions = $this->plateDivisionService->getDetail();
         return view('admin.plate_divisions.index', compact('plate_divisions'));
     }
 
@@ -22,42 +27,24 @@ class PlateDivisionController extends Controller
 
     public function store(PlateDivisionStoreRequest $request)
     {
-        $plate_division = new PlateDivision();
-
-        $plate_division->name = $request->name;
-
-        $plate_division->save();
-
+        $plate_division = $this->plateDivisionService->savePlateDivision($request);
         return redirect(route('admin.plate-division.index'));
     }
 
-    public function edit($id)
+    public function edit(PlateDivision $plate_division)
     {
-        $plate_division = PlateDivision::find($id);
-
         return view('admin.plate_divisions.edit', compact('plate_division'));
     }
 
-    public function update(PlateDivisionStoreRequest $request, $id)
+    public function update(PlateDivisionStoreRequest $request, PlateDivision $plate_division)
     {
-        $plate_division = PlateDivision::find($id);
-
-        $plate_division->name = $request->name;
-        $plate_division->updated_at = now();
-
-        $plate_division->save();
-
-        $plate_divisions = PlateDivision::all();
-
-        return view('admin.plate_divisions.index', compact('plate_divisions'));
+        $plate_division = $this->plateDivisionService->updatePlateDivision($request, $plate_division);
+        return redirect(route('admin.plate-division.index'));
     }
 
-    public function destroy($id)
+    public function destroy(PlateDivision $plate_division)
     {
-        $plate_division = PlateDivision::find($id);
-
-        $plate_division->delete();
-
+        $plate_division =  $this->plateDivisionService->deletePlateDivision($plate_division);
         return back();
     }
 }

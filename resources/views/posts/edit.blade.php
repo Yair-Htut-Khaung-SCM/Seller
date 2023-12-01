@@ -10,7 +10,7 @@ Edit Post
     <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('home') }}">{{__('home')}}</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('sale.post.index') }}">{{__('sale_post')}}</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('sale.index') }}">{{__('sale_post')}}</a></li>
         <li class="breadcrumb-item active" aria-current="page">{{__('edit')}}</li>
       </ol>
     </nav>
@@ -33,7 +33,7 @@ Edit Post
     <!-- Input Boxs -->
 
     <div class=" p-4 pb-2 mt-2 mb-3 bg-light rounded">
-      <form action="{{ route('sale.post.update',$post->id) }}" method="POST" enctype="multipart/form-data">
+      <form action="{{ route('sale.update',$post->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="mt-2">
@@ -399,7 +399,7 @@ Edit Post
 
           <!-- Publish/Unpublish -->
           <div class="form-check mt-2">
-            <input class="form-check-input" type="radio" name="publish" id="publish" value="1" @if(old('is_published',$post->is_published)=="1") checked @endif>
+            <input class="form-check-input" type="radio" name="is_published" id="is_published" value="1" @if(old('is_published',$post->is_published)=="1") checked @endif>
             <label class="form-check-label" for="publish">
               Publish
             </label>
@@ -414,7 +414,7 @@ Edit Post
           <!-- Button -->
           <div class="d-flex justify-content-between mt-3">
             <p><button type="submit" class="btn button fw-bold" style="width:150px;">{{__('update')}}</button></p>
-            <p> <a href="{{ route('sale.post.index') }}" class="btn btn-outline-secondary fw-bold">{{__('cancel')}}</a></p>
+            <p> <a href="{{ route('sale.index') }}" class="btn btn-outline-secondary fw-bold">{{__('cancel')}}</a></p>
           </div>
           <!-- End Input Boxs -->
         </div>

@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Manufacturer;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\File;
 use App\Http\Requests\Admin\ManufacturerStoreRequest;
 use App\Http\Requests\Admin\ManufacturerUpdateRequest;
+use App\Models\Manufacturer;
+use App\Services\Admin\ManufacturerService;
 
 class ManufacturerController extends Controller
 {
+    public function __construct(ManufacturerService $manufacturerService)
+    {
+        $this->manufacturerService = $manufacturerService;
+    }
+
     public function index()
     {
-        $manufacturers = Manufacturer::paginate(10);
-
+        $manufacturers = $this->manufacturerService->getDetail();
         return view('admin.manufacturers.index', compact('manufacturers'));
     }
 
@@ -26,54 +28,24 @@ class ManufacturerController extends Controller
 
     public function store(ManufacturerStoreRequest $request)
     {
-        $manufacturer = new Manufacturer();
-
-        $manufacturer->name = $request->name;
-
-        $manufacturer->save();
-
-        if ($request->hasfile('image')) {
-            $file = $request->file('image');
-            $filename = $manufacturer->id. '.png';
-            $file->move(public_path('/images/manufacturer_logos'),$filename);
-        }
+        $manufacturer = $this->manufacturerService->saveManufacturer($request);
         return redirect(route('admin.manufacturer.index'));
     }
 
-    public function edit($id)
+    public function edit(Manufacturer $manufacturer)
     {
-        $manufacturer = Manufacturer::find($id);
-
         return view('admin.manufacturers.edit', compact('manufacturer'));
     }
 
-    public function update(ManufacturerUpdateRequest $request, $id)
+    public function update(ManufacturerUpdateRequest $request, Manufacturer $manufacturer)
     {
-        $manufacturer = Manufacturer::find($id);
-        
-        $manufacturer->name = $request->name;
-        $manufacturer->updated_at = now();
-
-        $manufacturer->save();
-        if ($request->hasfile('image')) {
-            $file = $request->file('image');
-            $filename = $manufacturer->id. '.png';
-            $file->move(public_path('/images/manufacturer_logos'),$filename);
-        }
-
+        $manufacturer = $this->manufacturerService->updateManufacturer($request, $manufacturer);
         return redirect(route('admin.manufacturer.index'));
     }
 
-    public function destroy($id)
+    public function destroy(Manufacturer $manufacturer)
     {
-        $manufacturer = Manufacturer::find($id);
-
-        if(File::exists(public_path('/images/manufacturer_logos/' .$manufacturer->id. '.png'))) {
-            File::delete(public_path('/images/manufacturer_logos/' .$manufacturer->id. '.png'));
-          } 
-
-        $manufacturer->delete();
-
+        $manufacturer =  $this->manufacturerService->deleteManufacturer($manufacturer);
         return back();
     }
 }

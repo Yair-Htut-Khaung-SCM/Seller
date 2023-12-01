@@ -10,8 +10,8 @@ Create Post
     <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('home') }}</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('sale.post.index') }}">{{ __('posts') }}</a></li>
-        <li class="breadcrumb-item active" aria-current="page">{{ __('create_post') }}</li>
+        <li class="breadcrumb-item"><a href="{{ route('sale.index') }}">{{ __('posts') }}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ __('sale_post') }}</li>
       </ol>
     </nav>
   </header>
@@ -21,7 +21,7 @@ Create Post
     </div>
     <!-- Input Boxs -->
     <div class=" content-2 p-4 mt-2 mb-3 bg-light rounded">
-      <form action="{{route('sale.post.store')}}" method="POST" enctype="multipart/form-data">
+      <form action="{{route('sale.store')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="mt-2">
           <!-- Image Upload -->
@@ -351,7 +351,7 @@ Create Post
 
           <!-- Publish/Unpublish -->
           <div class="form-check mt-2">
-            <input class="form-check-input" type="radio" name="publish" id="publish" value="1" checked>
+            <input class="form-check-input" type="radio" name="is_published" id="is_published" value="1" checked>
             <label class="form-check-label" for="publish">
               Publish
             </label>

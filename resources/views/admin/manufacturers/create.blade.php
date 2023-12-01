@@ -27,7 +27,6 @@
             <div class="">
               <form class="px-4 py-3" action="{{ route('admin.manufacturer.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-
                 <!-- Manufacturer Image -->
                 <span class="position-relative">
                   <label for="image" id="upload_icon">

@@ -178,7 +178,7 @@
                             </h5>
                         </div>
                         <div class="col-4" style="font-size: 1.1rem; font-weight:600;">
-                            <a href="{{ route('buy.post.index') }}" class="float-end text-light text-decoration-none" title="View Buy Post">
+                            <a href="{{ route('buy.index') }}" class="float-end text-light text-decoration-none" title="View Buy Post">
                                 {{ __('see_all') }}
                             </a>
                         </div>
@@ -189,7 +189,7 @@
                         <div id="owl-demo" class="owl-carousel">
                             @for( $i = 0 ; $i < 12 ; $i++ ) @php( $post=$buy_posts[$i] ) <div class="item m-3">
                                 {{--@include('components.buy-card-sm')--}}
-                                <x-card_sm purpose="buy" :route="route('buy.post.show', $post->id)" saleProfile="sale" :$post :$users :$profile_image />
+                                <x-card_sm purpose="buy" :route="route('buy.show', $post->id)" saleProfile="sale" :$post :$users :$profile_image />
                         </div>
                         @endfor
                 </div>
@@ -220,7 +220,7 @@
                             </h5>
                         </div>
                         <div class="col-4" style="font-size: 1.1rem; font-weight:600;">
-                            <a href="{{ route('sale.post.index') }}" class="float-end text-light text-decoration-none" title="View Buy Post">
+                            <a href="{{ route('sale.index') }}" class="float-end text-light text-decoration-none" title="View Buy Post">
                                 {{ __('see_all') }}
                             </a>
                         </div>
@@ -231,7 +231,7 @@
                         <div id="owl-demo" class="owl-carousel">
                             @for( $i = 0 ; $i < 12 ; $i++ ) @php( $post=$sale_posts[$i] ) <div class="item m-3">
                                 {{--@include('components.card-sm')--}}
-                                <x-card_sm purpose="sale" :route="route('sale.post.show', $post->id)" saleProfile="sale" :$post :$users :$profile_image />
+                                <x-card_sm purpose="sale" :route="route('sale.show', $post->id)" saleProfile="sale" :$post :$users :$profile_image />
                         </div>
                         @endfor
                 </div>
@@ -274,17 +274,17 @@
                             @if( $posts->count() < 12) @php( $cnt=$posts->count() )
                                 @for( $i = 0 ; $i < $cnt ; $i++ ) @php( $post=$posts[$i] ) <div class="item ">
                                     {{--@include('components.card-sm')--}}
-                                    <x-card_sm purpose="sale" :route="route('sale.post.show', $post->id)" saleProfile="sale" :$post :$users :$profile_image />
+                                    <x-card_sm purpose="sale" :route="route('sale.show', $post->id)" saleProfile="sale" :$post :$users :$profile_image />
                         </div>
                         @endfor
                         @else
                         @for( $i = 0 ; $i < 12 ; $i++ ) @php( $post=$posts[$i] ) <div class="item m-3">
                             @if($post->purpose=='buy')
                             {{--@include('components.buy-card-sm')--}}
-                            <x-card_sm purpose="buy" :route="route('buy.post.show', $post->id)" saleProfile="sale" :$post :$users :$profile_image />
+                            <x-card_sm purpose="buy" :route="route('buy.show', $post->id)" saleProfile="sale" :$post :$users :$profile_image />
                             @else
                             {{--@include('components.card-sm')--}}
-                            <x-card_sm purpose="sale" :route="route('sale.post.show', $post->id)" saleProfile="sale" :$post :$users :$profile_image />
+                            <x-card_sm purpose="sale" :route="route('sale.show', $post->id)" saleProfile="sale" :$post :$users :$profile_image />
                             @endif
                 </div>
                 @endfor
@@ -316,7 +316,7 @@
                             </h5>
                         </div>
                         <div class="col-4" style="font-size: 1.1rem; font-weight:600;">
-                            <a href="{{ route('brand_new.buy.post.index','&condition=Brand New') }}" class="float-end text-light text-decoration-none" title="View Brand New Car List">
+                            <a href="{{ route('brand_new.buyPost','&condition=Brand New') }}" class="float-end text-light text-decoration-none" title="View Brand New Car List">
                                 {{ __('see_all') }}
                             </a>
                         </div>
@@ -328,10 +328,10 @@
                             @for( $i = 0 ; $i < 12 ; $i++ ) @php( $post=$brand_news[$i] ) <div class="item m-3">
                                 @if ($post->purpose=='buy')
                                 {{--@include('components.buy-card-sm')--}}
-                                <x-card_sm purpose="buy" :route="route('buy.post.show', $post->id)" saleProfile="sale" :$post :$users :$profile_image />
+                                <x-card_sm purpose="buy" :route="route('buy.show', $post->id)" saleProfile="sale" :$post :$users :$profile_image />
                                 @else
                                 {{--@include('components.card-sm')--}}
-                                <x-card_sm purpose="sale" :route="route('sale.post.show', $post->id)" saleProfile="sale" :$post :$users :$profile_image />
+                                <x-card_sm purpose="sale" :route="route('sale.show', $post->id)" saleProfile="sale" :$post :$users :$profile_image />
                                 @endif
 
                         </div>

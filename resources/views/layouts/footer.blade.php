@@ -7,8 +7,8 @@
     </div>
     <div class="col-md-3 col-lg-3 col-xl-3 mx-auto">
       <h5 class="text-uppercase mb-4" style="font-weight:600;">Categories</h5>
-      <p><a href="{{ route('buy.post.create') }}" class="text-light custom-nav-link" style="text-decoration:none; font-size: 0.9rem;">{{ __('buy_cars') }}</a></p>
-      <p><a href="{{ route('sale.post.create') }}" class="text-light custom-nav-link" style="text-decoration:none; font-size: 0.9rem;">{{ __('sell_cars') }}</a></p>
+      <p><a href="{{ route('buy.create') }}" class="text-light custom-nav-link" style="text-decoration:none; font-size: 0.9rem;">{{ __('buy_cars') }}</a></p>
+      <p><a href="{{ route('sale.create') }}" class="text-light custom-nav-link" style="text-decoration:none; font-size: 0.9rem;">{{ __('sell_cars') }}</a></p>
       <p style="font-size: 0.9rem;">{{ __('help') }}</p>
     </div>
     <div class="col-md-3 col-lg-3 col-xl-3 mx-auto">

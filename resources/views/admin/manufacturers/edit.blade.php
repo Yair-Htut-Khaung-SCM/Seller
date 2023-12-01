@@ -27,7 +27,7 @@
             <div class="">
               <form class="px-4 py-3" action="{{ route('admin.manufacturer.update', $manufacturer->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
-
+                @method('PUT')
                 <!-- Manufacturer Image -->
                 <span class="position-relative">
                   <label for="image" id="upload_icon">

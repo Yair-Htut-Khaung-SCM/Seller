@@ -196,6 +196,7 @@ tabs.forEach(tab => {
     var build_types_count = "{{ $build_types_count }}";
     var posts_by_build_types = "{{ json_encode($posts_by_build_types) }}";
     posts_by_build_types = JSON.parse(posts_by_build_types.replace(/&quot;/g, '"'));
+   
     let lable_build_type = [];
     let value_build_type = [];
     let color = ['#ED836F', '#CC8DB9', '#60AAC5', '#54B282', '#ACA246',
@@ -204,7 +205,7 @@ tabs.forEach(tab => {
     ];
     for (let i = 0; i < build_types_count; i++) {
         lable_build_type[i] = posts_by_build_types[i].name;
-        value_build_type[i] = posts_by_build_types[i].value;
+        value_build_type[i] = posts_by_build_types[i].posts_count;
     }
     // Pie Chart Example
     var ctx = document.getElementById("BuildTypePieChart");
@@ -231,10 +232,10 @@ tabs.forEach(tab => {
     posts_by_plate_divisions = JSON.parse(posts_by_plate_divisions.replace(/&quot;/g, '"'));
     let lable_post_division = [];
     let value_post_division = [];
-    plate_division_count++;
+    // plate_division_count++;add for other
     for (let i = 0; i < plate_division_count; i++) {
         lable_post_division[i] = posts_by_plate_divisions[i].name;
-        value_post_division[i] = posts_by_plate_divisions[i].value;
+        value_post_division[i] = posts_by_plate_divisions[i].posts_count;
     }
     // Pie Chart Example
     var ctx = document.getElementById("PlateDivisionDoughnutChart");
@@ -264,8 +265,7 @@ tabs.forEach(tab => {
     let value_post_manu = [];
     for (let i = 0; i < manufacturers_count; i++) {
         lable_post_manu[i] = posts_by_manufacturers[i].name;
-        value_post_manu[i] = posts_by_manufacturers[i].value;
-        console.log( lable_post_manu[i]);
+        value_post_manu[i] = posts_by_manufacturers[i].posts_count;
     }
     
     // Max Value
@@ -338,7 +338,7 @@ let post_manu_year = [];
 let post_value_year = [];
 for (let i = 0; i < manufact_year; i++) {
     post_manu_year[i] = posts_by_manufacturers[i].name;
-    post_value_year[i] = posts_by_manufacturers[i].value;
+    post_value_year[i] = posts_by_manufacturers[i].posts_count;
 }
 // Max Value
 let max_year = Math.max.apply(null, post_value_year);
@@ -476,7 +476,7 @@ let post_manu_week = [];
 let post_value_week = [];
 for (let i = 0; i < manufact_week; i++) {
     post_manu_week[i] = posts_by_manufacturers[i].name;
-    post_value_week[i] = posts_by_manufacturers[i].value;
+    post_value_week[i] = posts_by_manufacturers[i].posts_count;
 }
 // Max Value
 let max_week = Math.max.apply(null, post_value_week);

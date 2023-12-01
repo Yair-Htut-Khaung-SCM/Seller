@@ -85,7 +85,7 @@
                         @foreach($posts as $post)
                         <div>
                           {{--@include('components.card')--}}
-                          <x-card_lg purpose="sale" :route="route('sale.post.show', $post->id)" saleProfile="sale" :$post :$users :$profile_image/>
+                          <x-card_lg purpose="sale" :route="route('sale.show', $post->id)" saleProfile="sale" :$post :$users :$profile_image/>
                         </div>  
                         @endforeach
                         

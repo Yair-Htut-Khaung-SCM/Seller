@@ -2,28 +2,31 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\User;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Services\Admin\UserService;
 
 class UserController extends Controller
 {
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     public function index()
     {
-        $users = User::paginate(10);
-
+        $users = $this->userService->getDetail();
         return view('admin.users.index', compact('users'));
     }
 
     public function update($id)
     {
-        return redirect()->route('admin.user.index')->with('error', 'This action is unavailable.');
+        return redirect()->route('admin.users.index')->with('error', 'This action is unavailable.');
     }
 
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        $user = User::find($id);
-        $user->delete();
-        return redirect()->route('admin.user.index')->with('success', 'User is successfully deleted.');
+        $users = $this->userService->deleteUser($user);
+        return redirect()->route('admin.users.index')->with('success', 'User is successfully deleted.');
     }
 }

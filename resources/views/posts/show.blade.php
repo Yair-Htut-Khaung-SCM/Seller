@@ -56,7 +56,7 @@
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('home') }}</a>
-                <li class="breadcrumb-item"><a href="{{ route('sale.post.index') }}">{{ __('sale_post') }}</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('sale.index') }}">{{ __('sale_post') }}</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{ __('detail') }}</li>
             </ol>
         </nav>
@@ -79,8 +79,9 @@
                         <a href="https://www.facebook.com/sharer/sharer.php?u=http://127.0.0.1:8000/sale/post/{{$postid}}&display=page" target="_blank" style="text-align: center; color:rgb(162, 157, 157);"><i class="fas fa-share-alt" id="share" style="font-size:24px;"></i></a>
                     </div>
                     @if (Auth::check() && !$post->likedBy(Auth::user()->id))
-                    <form action="{{ route('favourite.store', $post->id) }}" method="POST" class="col-1" style="width:fit-content; text-align:center;">
+                    <form action="{{ route('favourite.store') }}" method="POST" class="col-1" style="width:fit-content; text-align:center;">
                         @csrf
+                        <input type="hidden" name="post_id" id="post_id" value="{{$post->id}}">
                         <button type="submit" class="btn btn-default" title="Add to favorites" style="padding: 0; border: none; background: none;">
                             <img src="/images/icons/heart-outline.png" style="width: 36px; height: 36px;" alt="">
                         </button>
@@ -88,6 +89,7 @@
                     @else
                     <form action="{{ route('favourite.destroy', $post->id) }}" method="POST" class="col-1" style="text-align:center;">
                         @csrf
+                        @method('DELETE')
                         <button type="submit" class="btn btn-default" title="Remove from favorites" style="padding: 0; border: none; background: none;">
                             <img src="/images/icons/heart-full.png" style="width: 36px; height: 36px;" alt="">
                         </button>
@@ -222,7 +224,7 @@
                     <!-- Edit and Delete Button -->
                     @if (Auth::check() && $post->user_id == Auth::user()->id)
                     <div class="d-flex justify-content-between">
-                        <form action="{{ route('sale.post.delete', $post->id) }}" method="POST" onclick="return confirm('Delete Your Post! Are you sure?')">
+                        <form action="{{ route('sale.destroy', $post->id) }}" method="POST" onclick="return confirm('Delete Your Post! Are you sure?')">
                             @method('DELETE')
                             @csrf
                             <button type="submit" class="btn btn-outline-secondary fw-bold">
@@ -231,7 +233,7 @@
                             </button>
                         </form>
                         <p>
-                            <a href="{{ route('sale.post.edit', $post->id) }}" class="btn button fw-bold">
+                            <a href="{{ route('sale.edit', $post->id) }}" class="btn button fw-bold">
                                 <i class="fas fa-edit me-2"></i>
                                 {{ __('edit') }}
                             </a>
@@ -439,7 +441,7 @@
                                                 </button>
                                             </a>
 
-                                            <form action={{ url('components/card-sm/' . $comment->id) }} method="POST" id="deleteCmt">
+                                            <form action="{{ route('comment.destroy', $comment->id ) }}" method="POST" id="deleteCmt">
                                                 @csrf
                                                 @method('DELETE')
                                                 <div>
@@ -533,7 +535,7 @@
                             </h5>
                         </div>
                         <div class="col-4" style="font-size: 1.1rem; font-weight:600;">
-                            <a href="{{ route('sale.post.index') }}" class="float-end text-light text-decoration-none">
+                            <a href="{{ route('sale.index') }}" class="float-end text-light text-decoration-none">
                                 {{ __('see_all') }}
                             </a>
                         </div>
@@ -545,7 +547,7 @@
                             @foreach ($similar_posts as $post)
                             <div class="item m-3">
                                 {{--@include('components.card-sm')--}}
-                                <x-card_sm purpose="sale" :route="route('sale.post.show', $post->id)" saleProfile="sale" :$post :$users :$profile_image />
+                                <x-card_sm purpose="sale" :route="route('sale.show', $post->id)" saleProfile="sale" :$post :$users :$profile_image />
                             </div>
                             @endforeach
                         </div>

@@ -40,7 +40,7 @@ class Post extends Model
     {
         return $this->hasMany(Image::class);
     }
-
+    
     public function favourites()
     {
         return $this->hasMany(Favourite::class);

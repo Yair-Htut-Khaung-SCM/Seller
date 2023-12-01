@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\AdminUser;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Admin\LoginStoreRequest;
@@ -18,18 +17,6 @@ class LoginController extends Controller
     public function store(LoginStoreRequest $request)
     {
         $user = AdminUser::where('email', $request->email)->first();
-        // if($email == $user->email && $password == $user->password)
-        // {
-        //     $user->remember_token = $request->remember;
-        //     $user->save();
-
-        //     return redirect('/admin');
-        // }
-        // else{
-        //     throw ValidationException::withMessages([
-        //                 'password' => 'User Name or Password is wrong',
-        //             ]);
-        // }
         $credential = [
             'email' => $request->email,
             'password' => $request->password,

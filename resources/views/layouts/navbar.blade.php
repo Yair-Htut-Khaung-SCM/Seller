@@ -34,15 +34,15 @@
                         {{ __('create_post') }}
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a href="{{ route('buy.post.create') }}" class="dropdown-item" @if( request()->url()==route('buy.post.create') ) active @endif> {{ __('buy_post') }} </a></li>
-                        <li><a href="{{ route('sale.post.create') }}" class="dropdown-item" @if( request()->url()==route('sale.post.create') ) active @endif> {{ __('sale_post') }} </a></li>
+                        <li><a href="{{ route('buy.create') }}" class="dropdown-item" @if( request()->url()==route('buy.create') ) active @endif> {{ __('buy_post') }} </a></li>
+                        <li><a href="{{ route('sale.create') }}" class="dropdown-item" @if( request()->url()==route('sale.create') ) active @endif> {{ __('sale_post') }} </a></li>
                     </ul>
                 </div>
 
-                {{--<a href="{{ route('post.create') }}" class="nav-item nav-link custom-nav-link @if( request()->url()==route('post.create') ) active @endif">{{ __('create post') }}</a>--}}
+                {{--<a href="{{ route('buy.create') }}" class="nav-item nav-link custom-nav-link @if( request()->url()==route('buy.create') ) active @endif">{{ __('create post') }}</a>--}}
 
                 @if( Auth::check())
-                <a href="{{ route('buy.post.favourite') }}" class="nav-item nav-link custom-nav-link @if( request()->url()==route('post.favourite') ) active @endif">{{__('my_fav')}}</a>
+                <a href="{{ route('favourite.show','buy') }}" class="nav-item nav-link custom-nav-link @if( request()->url()==route('post.favourite') ) active @endif">{{__('my_fav')}}</a>
 
                 <li class="nav-item dropdown ">
                     <a class="nav-link fw-bold dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

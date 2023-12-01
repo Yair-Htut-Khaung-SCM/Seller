@@ -2,113 +2,61 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Post;
-use App\Models\User;
-use App\Models\BuildType;
-use App\Models\Manufacturer;
-use App\Models\PlateDivision;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
-use Carbon\CarbonPeriod;
+use App\Enums\GeneralType;
+use App\Services\Admin\ManufacturerService;
+use App\Services\Admin\BuildTypeService;
+use App\Services\Admin\PlateDivisionService;
+use App\Services\Admin\UserService;
+use App\Services\Admin\PostService;
 
 class AdminPageController extends Controller
 {
+    public function __construct(ManufacturerService $manufacturerService, BuildTypeService $buildTypeService,
+     PlateDivisionService $plateDivisionService, UserService $userService, PostService $postService)
+    {
+        $this->manufacturerService = $manufacturerService;
+        $this->buildTypeService = $buildTypeService;
+        $this->plateDivisionService = $plateDivisionService;
+        $this->userService = $userService;
+        $this->postService = $postService;
+    }
+
     public function index()
     {
-        // Count 
-        $users_count = User::count();
-        $posts_count = Post::count();
-        $buy_posts = Post::Where('purpose', '=', 'buy')->count();
-        $sale_posts = Post::Where('purpose', '=', 'sale')->count();
-        $manufacturers_count = Manufacturer::count();
-        $build_types_count = BuildType::count();
-        $plate_division_count = PlateDivision::count();
+        $users_count = $this->userService->getCount();
+        $posts_count = $this->postService->getCount();
+
+        $buy_posts = $this->postService->getCount(GeneralType::PURPOSE_BUY);
+        $sale_posts = $this->postService->getCount(GeneralType::PURPOSE_SALE);
+        
+        $manufacturers_count = $this->manufacturerService->getCount();
+        $build_types_count = $this->buildTypeService->getCount();
+        $plate_division_count = $this->plateDivisionService->getCount();
 
         // Data
-        $posts = Post::get()->toArray();
-        $build_types = BuildType::all();
-        $i = 0;
-        foreach ($build_types as $build_type) {
-            $posts_by_build_types[$i] = [
-                'name' => $build_type->name,
-                'value' => Post::where('build_type_id', $build_type->id)->get()->count()
-            ];
-            $i++;
-        }
-        // Manufacture
-        $manufacturers = Manufacturer::all();
-        $i = 0;
-        foreach ($manufacturers as $manufacturer) {
-            $posts_by_manufacturers[$i] = [
-                'name' => $manufacturer->name,
-                'value' => Post::where('manufacturer_id', $manufacturer->id)->get()->count()
-            ];
-            $i++;
-        }
+        $posts = $this->postService->getAll();
+        $posts_by_build_types = $this->buildTypeService->getBuildTypewithPostCount();
+        $posts_by_manufacturers = $this->manufacturerService->getManufacturewithPostCount();
 
-        $latest_year = Carbon::now();
-        $latest_year->year = (now()->year)-1;
-        $latest_year->month = 01;
-        $latest_year->day = 01;
-
-        $before_latest = Carbon::now();
-        $before_latest->year = (now()->year);
-        $before_latest->month = 01;
-        $before_latest->day = 01;
-        // Manufacture by Latest Year
-        $manufacturers = Manufacturer::all();
-        $i = 0;
-        foreach ($manufacturers as $manufacturer) {
-            $latest_year_count[$i] = [
-                'name' => $manufacturer->name,
-                'value' => Post::where('manufacturer_id', $manufacturer->id)->Where('created_at', '>=',$latest_year)->Where('created_at', '<',$before_latest)->get()->count()
-            ];
-            $i++;
-        }
-
-        $latest_month = Carbon::now();
-        $latest_month->month = (now()->month);
-        $latest_month->day = ((now()->day)-31);
+       // Manufacture by Latest Year
+        $latest_year = Carbon::now()->subYear()->startOfYear();
+        $before_latest = Carbon::now()->startOfYear();
+        $latest_year_count = $this->manufacturerService->getManufactureByLastYear($latest_year,$before_latest);
+        
+       
         // Manufacture by Latest Month
-        $manufacturers = Manufacturer::all();
-        $i = 0;
-        foreach ($manufacturers as $manufacturer) {
-            $latest_month_count[$i] = [
-                'name' => $manufacturer->name,
-                'value' => Post::where('manufacturer_id', $manufacturer->id)->Where('created_at', '>=',$latest_month)->get()->count()
-            ];
-            $i++;
-        }
+        $latest_month = Carbon::now()->subMonth();
+        $latest_month_count = $this->manufacturerService->getManufactureByLastMonth($latest_month);
+      
 
-        $latest_week = Carbon::now();
-        $latest_week->day = (now()->day)-7;
         // Manufacture by Latest Month
-        $manufacturers = Manufacturer::all();
-        $i = 0;
-        foreach ($manufacturers as $manufacturer) {
-            $latest_week_count[$i] = [
-                'name' => $manufacturer->name,
-                'value' => Post::where('manufacturer_id', $manufacturer->id)->Where('created_at', '>=',$latest_week)->get()->count()
-            ];
-            $i++;
-        }
-
-
+        $latest_week = Carbon::now()->subWeek();
+        $latest_week_count = $this->manufacturerService->getManufactureByLastMonth($latest_week);
+       
         // Plate Division
-        $plate_divisions = PlateDivision::all();
-        $i = 0;
-        foreach ($plate_divisions as $plate_division) {
-            $posts_by_plate_divisions[$i] = [
-                'name' => $plate_division->name,
-                'value' => Post::where('plate_division_id', $plate_division->id)->get()->count()
-            ];
-            $i++;
-        }
-        $posts_by_plate_divisions[$i] = [
-            'name' => 'Other',
-            'value' => Post::where('plate_division_id', null)->get()->count()
-        ];
-
+        $posts_by_plate_divisions = $this->plateDivisionService->getPlateDivisionWithPostCount();
 
         return view(
             'admin.home',

@@ -11,17 +11,17 @@
                 <div class="sb-nav-link-icon"><i class="fas fa-user-cog"></i></div>
                 Admin User Table
             </a>
-            <a class="nav-link" href="{{ route('admin.user.index') }}">
+            <a class="nav-link" href="{{ route('admin.users.index') }}">
                 <div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>
                 User Table
             </a>
 
             <div class="sb-sidenav-menu-heading">Posts</div>
-            <a class="nav-link" href="{{ route('admin.buy.post.index') }}">
+            <a class="nav-link" href="{{ route('admin.buy.index') }}">
                 <div class="sb-nav-link-icon"><i class="far fa-clipboard"></i></div>
                 Buy Posts
             </a>
-            <a class="nav-link" href="{{ route('admin.sell.post.index') }}">
+            <a class="nav-link" href="{{ route('admin.sell.index') }}">
                 <div class="sb-nav-link-icon"><i class="far fa-clipboard"></i></div>
                 Sale Posts
             </a>
