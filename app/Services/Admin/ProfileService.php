@@ -2,31 +2,29 @@
 
 namespace App\Services\Admin;
 
-use App\Dao\Admin\ProfileDao;
+use App\Models\Profile;
+use App\Models\AdminUser;
 
 class ProfileService
 {
-    public function __construct(ProfileDao $profileDao)
-    {
-        $this->profileDao = $profileDao;
-    }
-
     public function getDetail($id)
     {
-        $result = $this->profileDao->getDetail($id);
+        $result = AdminUser::where('id', $id)->first();
         return $result;
     }
 
     public function saveProfile($request, $id)
     {
-        $user = $this->profileDao->saveProfile($request, $id);
-        return $user;
+        $profile = Profile::where('user_id', $id)->firstOrFail();
+        $data = $request->except('_token','name','email','image');
+        $profile->update($data);
+        return $profile;
     }
 
     public function getProfileByUserId($id)
     {
-        $user = $this->profileDao->getProfileByUserId($id);
-        return $user;
+        $profile = Profile::where('user_id', $id)->firstOrFail();
+        return $profile;
     }
 
 }

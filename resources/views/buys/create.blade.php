@@ -322,7 +322,7 @@ Create Post
 
           <!-- Publish/Unpublish -->
           <div class="form-check mt-3">
-            <input class="form-check-input" type="radio" name="publish" id="publish" value="1" checked>
+            <input class="form-check-input" type="radio" name="is_published" id="is_published" value="1" checked>
             <label class="form-check-label" for="publish">
               Publish
             </label>

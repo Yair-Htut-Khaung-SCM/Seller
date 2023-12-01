@@ -2,66 +2,48 @@
 
 namespace App\Services\Admin;
 
-use App\Dao\Admin\PlateDivisionDao;
+use App\Models\PlateDivision;
 
 class PlateDivisionService
 {
-    public function __construct(PlateDivisionDao $plateDivisionDao)
-    {
-        $this->plateDivisionDao = $plateDivisionDao;
-    }
-
     public function getAll()
     {
-        $result = $this->plateDivisionDao->getAll();
-        return $result;
+        $plate_division = PlateDivision::all();
+        return $plate_division;
     }
 
     public function getDetail()
     {
-        $result = $this->plateDivisionDao->getDetail();
+        $result = PlateDivision::paginate(10);
         return $result;
     }
 
     public function getCount()
     {
-        return $this->plateDivisionDao->getCount();
+        return PlateDivision::count();
     }
 
     public function savePlateDivision($request)
     {
-        $plate_division = $this->plateDivisionDao->savePlateDivision($request);
-
-        if ($request->hasfile('image')) {
-            $file = $request->file('image');
-            $filename = $plate_division->id. '.png';
-            $file->move(public_path('/images/build_types'),$filename);
-        }
+        $plate_division = PlateDivision::create($request->all());
         return $plate_division;
     }
 
     public function updatePlateDivision($request, $plate_division)
     {
-        $plate_division = $this->plateDivisionDao->updatePlateDivision($request, $plate_division);
-
-        if ($request->hasfile('image')) {
-            $file = $request->file('image');
-            $filename = $plate_division->id. '.png';
-            $file->move(public_path('/images/build_types'),$filename);
-        }
+        $plate_division->update($request->all());
         return $plate_division;
     }
 
     public function deletePlateDivision($plate_division)
     {
-        $plate_division = $this->plateDivisionDao->deletePlateDivision($plate_division);
+        $plate_division->delete();
         return $plate_division;
     }
 
     public function getPlateDivisionWithPostCount()
     {
-       $plate_division = $this->plateDivisionDao->getPlateDivisionWithPostCount();
-       return $plate_division;
+        $plate_division = PlateDivision::withCount('posts')->get()->toArray();
+        return $plate_division;
     }
-
 }

@@ -40,15 +40,10 @@ class Post extends Model
     {
         return $this->hasMany(Image::class);
     }
-
-    // public function favouritesu()
-    // {
-    //     return $this->hasMany(Favourite::class);
-    // }
-
+    
     public function favourites()
     {
-        return $this->hasOne(Favourite::class);
+        return $this->hasMany(Favourite::class);
     }
 
     public function likedBy($id)

@@ -3,16 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Enums\GeneralType;
-use App\Models\ProfileImage;
-use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\ProfileStoreRequest;
-use App\Http\Requests\PostStoreRequest;
-use App\Http\Requests\PostUpdateRequest;
 use App\Services\Admin\PostService;
 use App\Services\Admin\ProfileService;
 use App\Services\Admin\UserService;
@@ -65,20 +58,8 @@ class ProfileController extends Controller
     public function update(ProfileStoreRequest $request)
     {
         $id = Auth::user()->id;
-        $user = User::find($id);
-
-        // $profile = Profile::where('user_id', $id)->first();
-        $profile = $this->profileService->getProfileByUserId($id);
-        $user->name = $request->name;
-        $user->email = $request->email;
-        //$user->password = bcrypt($request->password);
-        $user->save();
-
-        $profile->status = $request->status;
-        $profile->phone = $request->phone;
-        $profile->address = $request->address;
-        $profile->description = $request->description;
-        $profile->save();
+        $user = $this->userService->saveUser($request, $id);
+        $profile = $this->profileService->saveProfile($request, $id);
 
         if ($request->hasfile('image')) {
             $file = $request->file('image');
@@ -88,25 +69,13 @@ class ProfileController extends Controller
 
             if ($profile->profile_image) {
                 Storage::delete($profile->profile_image->path . '/' . $profile->profile_image->name);
+                $image = $this->profileImageService->updateProfileImage($profile->id, $filename, url($dir . '/' . $filename));
 
-                $image = $this->profileImageService->getProfileImageByKey('profile_id',$profile->id);
-                // ProfileImage::where('profile_id', $profile->id)->first();
-                $image->name = $filename;
-                $image->url = url($dir . '/' . $filename);
-                $file = $file->move(public_path('upload/images/profile/'. $profile->id ), $filename); 
-
-                $image->save();
             } else {
-                $image = new ProfileImage();
-
-                $image->profile_id = $profile->id;
-                $image->name = $filename;
-                $image->path = $dir;
-                $image->url = url($dir . '/' . $filename);
-                $file = $file->move(public_path('upload/images/profile/'. $profile->id ), $filename); 
-
-                $image->save();
+                $image = $this->profileImageService->saveProfileImage($profile->id, $filename, $dir, url($dir . '/' . $filename));
             }
+
+            $file = $file->move(public_path('upload/images/profile/'. $profile->id ), $filename); 
         }
 
         return redirect('/profile/sale');

@@ -7,13 +7,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Services\Admin\ProfileService;
+use App\Services\Admin\AdminService;
 
 class ProfileController extends Controller
 {
 
-    public function __construct(ProfileService $profileService)
+    public function __construct(ProfileService $profileService,AdminService $adminService)
     {
         $this->profileService = $profileService;
+        $this->adminService = $adminService;
     }
 
     public function index(){
@@ -40,12 +42,8 @@ class ProfileController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-
-        // $user = AdminUser::find($id);
-        // $user->name = $request->name;
-        // $user->email = $request->email;
-        // $user->save();
-        $user = $this->profileService->saveProfile($request, $id);
+        
+        $user = $this->adminService->updateAdminUser($request, $id);
         return view('admin.profile.index', compact('user'));
     }
 }

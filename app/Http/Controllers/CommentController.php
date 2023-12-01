@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CommentRequest;
 use App\Models\Comment;
 use Illuminate\Http\Request;
-use Illuminate\Supprt\Facades\Validator;
 use App\Services\CommentService;
 
 class CommentController extends Controller
@@ -23,9 +22,9 @@ class CommentController extends Controller
         return back();
     }
 
-    public function destroy($id)
+    public function destroy(Comment $comment)
     {
-        $comment = $this->commentService->deleteComment($id);
+        $comment->delete();
         return back();
     }
 
@@ -34,6 +33,7 @@ class CommentController extends Controller
         $editComment = $this->commentService->getCommentById($id);
         return back()->with(['comment' => $editComment->comment]);
     }
+
     public function update(Request $request, $id)
     {
         $request->validate([

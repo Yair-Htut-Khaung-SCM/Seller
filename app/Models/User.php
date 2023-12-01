@@ -60,6 +60,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function favourite_posts()
     {
-        return $this->belongsToMany(Post::class, 'favourites', 'user_id', 'post_id')->withPivot('id');
+        return $this->belongsToMany(Post::class, 'favourites', 'user_id', 'post_id');
     }
 }

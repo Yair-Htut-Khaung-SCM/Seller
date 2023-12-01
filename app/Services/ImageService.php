@@ -2,43 +2,44 @@
 
 namespace App\Services;
 
-use App\Dao\ImageDao;
+use App\Models\Image;
 
 class ImageService
 {
-    public function __construct(ImageDao $imageDao)
-    {
-        $this->imageDao = $imageDao;
-    }
-
     public function getAll()
     {
-        $result = $this->imageDao->getAll();
-        return $result;
+        $image = Image::all();
+        return $image;
     }
 
     public function saveImage($post, $filename, $dir)
     {
-        $result = $this->imageDao->saveImage($post, $filename, $dir);
-        return $result;
+        $image = new Image();
+        $image->post_id = $post->id;
+        $image->name = $filename;
+        $image->path = $dir;
+        $image->url = url($dir . '/' . $filename);
+        $image->save();
+        return $image;
     }
 
     public function deleteImageByKey($key, $id)
     {
-        $result = $this->imageDao->deleteImage($key, $id);
-        return $result;
-
+        $image = Image::where($key, $id)->delete();
+        return $image;
     }
 
     public function getUnDeletedFile($request, $id)
     {
-        $result = $this->imageDao->getUnDeletedFile($request, $id);
-        return $result;
-    }
+        $images = Image::whereNotIn('id', $request->undeletedFiles)
+        ->where('post_id', $id)
+        ->get();
 
+        return $images;
+    }
     public function getImageByPostId($id)
     {
-        $result = $this->imageDao->getImageByPostId($id);
-        return $result;
+        $images = Image::where('post_id', $id)->get();
+        return $images;
     }
 }

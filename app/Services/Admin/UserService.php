@@ -2,41 +2,53 @@
 
 namespace App\Services\Admin;
 
-use App\Dao\Admin\UserDao;
-
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 class UserService
 {
-    public function __construct(UserDao $userDao)
-    {
-        $this->userDao = $userDao;
-    }
-
     public function getDetail()
     {
-        $result = $this->userDao->getDetail();
+        $result = User::paginate(10);
         return $result;
     }
 
     public function getCount()
     {
-        return $this->userDao->getCount();
+        return User::count();
     }
 
-    public function deleteUser($id)
+    public function deleteUser($user)
     {
-        $build_type = $this->userDao->deleteUser($id);
-        return $build_type;
+        $user->delete();
+        return $user;
     }
 
     public function getAll()
     {
-        $result = $this->userDao->getAll();
-        return $result;
+        $user = User::all();
+        return $user;
     }
 
     public function getUserById($id)
     {
-        $result = $this->userDao->getUserById($id);
-        return $result;
+        $user = User::where('id', $id)->first();
+        return $user;
     }
+
+    public function saveUser($request, $id)
+    {
+        $user = User::find($id);
+        $user->update($request->all());
+        return $user;
+    }
+
+    public function getUserName($id_array)
+    {
+        $user = User::whereIn('id', $id_array)
+                ->orderByRaw(DB::raw("FIELD(id, " . implode(',', $id_array) . ")"))
+                ->pluck('name');
+        
+        return $user->toArray();
+    }
+
 }

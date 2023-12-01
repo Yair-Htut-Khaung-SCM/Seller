@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Favourite;
+
 use App\Services\FavouriteService;
-use App\Models\ProfileImage;
-use App\Models\User;
+use App\Services\ProfileImageService;
+use App\Services\Admin\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class FavouriteController extends Controller
 {
 
-    public function __construct(FavouriteService $favouriteService)
+    public function __construct(FavouriteService $favouriteService,ProfileImageService $profileImageService,UserService $userService)
     {
         $this->favouriteService = $favouriteService;
+        $this->profileImageService = $profileImageService;
+        $this->userService = $userService;
     }
 
     public function index()
@@ -29,8 +31,8 @@ class FavouriteController extends Controller
     {
         $posts = Auth::user()->favourite_posts;
         $posts = collect($posts)->reverse()->where('purpose','=', $status);
-        $users = User::all();
-        $profile_image = ProfileImage::all();
+        $users = $this->userService->getAll();
+        $profile_image = $this->profileImageService->getAll();
         $view_path = $status == 'buy' ? 'buys' : 'posts';
         return view($view_path . '.favourite', compact('posts', 'profile_image', 'users'));
     }
@@ -42,16 +44,11 @@ class FavouriteController extends Controller
         return back();
     }
     
-    public function destroy(Favourite $favourite)
+    public function destroy($id)
     {
-        $favourite->delete();
+        $user_id = Auth::id();
+        $post_id = $id;
+        $favourite = $this->favouriteService->deleteFavourite($post_id, $user_id);
         return back();
-        // $user_id = Auth::id();
-        // $post_id = $id;
-
-        // $favourite = Favourite::where('user_id', $user_id)
-        //     ->where('post_id', $post_id);
-
-        // $favourite->delete();
     }
 }

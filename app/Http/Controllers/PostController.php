@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Enums\GeneralType;
 
-use App\Models\ProfileImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\PostStoreRequest;
 use App\Http\Requests\PostUpdateRequest;
+use App\Models\Post;
 use App\Services\Admin\PostService;
 use App\Services\Admin\ManufacturerService;
 use App\Services\Admin\BuildTypeService;
@@ -33,6 +33,7 @@ class PostController extends Controller
         $this->path = $request->segment(1); // get sale or buy resource
         $this->view = $this->path == "buy" ? 'buys' : 'posts';
     }
+    
     public function index(Request $request)
     {
         $manufacturers = $this->manufacturerService->getAll();
@@ -55,7 +56,8 @@ class PostController extends Controller
     }
     public function store(PostStoreRequest $request)
     {
-        //Create New Post
+        //Create New Post 
+        $request['purpose'] = $this->path;
         $post = $this->postService->savePost($request,$this->path);
         return redirect(route($this->path.'.show', $post->id));
     }
@@ -106,9 +108,9 @@ class PostController extends Controller
         abort(404);
     }
 
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        $post = $this->postService->deletePost($id);
+        $post = $this->postService->deletePost($post);
         return redirect(route($this->path.'.index'));
     }
 
@@ -116,7 +118,7 @@ class PostController extends Controller
     {
         $manufacturers = $this->manufacturerService->getAll();
         $build_types = $this->buildTypeService->getAll();
-        $profile_image = ProfileImage::all();
+        $profile_image = $this->profileImageService->getAll();
         $users = $this->userService->getAll();
         $posts = $this->postService->getBrandNewPost($request, GeneralType::PURPOSE_BUY);
 
@@ -127,7 +129,7 @@ class PostController extends Controller
     {
         $manufacturers = $this->manufacturerService->getAll();
         $build_types = $this->buildTypeService->getAll();
-        $profile_image = ProfileImage::all();
+        $profile_image = $this->profileImageService->getAll();
         $users = $this->userService->getAll();
         $posts = $this->postService->getBrandNewPost($request, GeneralType::PURPOSE_SALE);
 
@@ -138,7 +140,7 @@ class PostController extends Controller
     {
         $manufacturers = $this->manufacturerService->getAll();
         $build_types = $this->buildTypeService->getAll();
-        $profile_image = ProfileImage::all();
+        $profile_image = $this->profileImageService->getAll();
         $users = $this->userService->getAll();
         $build_type_count = $this->buildTypeService->getCount();
 
@@ -151,7 +153,7 @@ class PostController extends Controller
     {
         $manufacturers = $this->manufacturerService->getAll();
         $build_types = $this->buildTypeService->getAll();
-        $profile_image = ProfileImage::all();
+        $profile_image = $this->profileImageService->getAll();
         $users = $this->userService->getAll();
         $build_type_count = $this->buildTypeService->getCount();
 
@@ -164,7 +166,7 @@ class PostController extends Controller
     {
         $manufacturers = $this->manufacturerService->getAll();
         $build_types = $this->buildTypeService->getAll();
-        $profile_image = ProfileImage::all();
+        $profile_image = $this->profileImageService->getAll();
         $users = $this->userService->getAll();
         $manufacturer_count = $this->manufacturerService->getCount();
 
@@ -177,7 +179,7 @@ class PostController extends Controller
     {
         $manufacturers = $this->manufacturerService->getAll();
         $build_types = $this->buildTypeService->getAll();
-        $profile_image = ProfileImage::all();
+        $profile_image = $this->profileImageService->getAll();
         $users = $this->userService->getAll();
         $manufacturer_count = $this->manufacturerService->getCount();
 
@@ -191,7 +193,7 @@ class PostController extends Controller
         $manufacturers = $this->manufacturerService->getAll();
         $build_types = $this->buildTypeService->getAll();
         $users = $this->userService->getAll();
-        $profile_image = ProfileImage::all();
+        $profile_image = $this->profileImageService->getAll();
 
         $posts = $this->postService->getLatestPost(GeneralType::PURPOSE_BUY);
         return view('buys.latest', compact('posts', 'manufacturers', 'build_types', 'profile_image', 'users'));
@@ -202,7 +204,7 @@ class PostController extends Controller
         $manufacturers = $this->manufacturerService->getAll();
         $build_types = $this->buildTypeService->getAll();
         $users = $this->userService->getAll();
-        $profile_image = ProfileImage::all();
+        $profile_image = $this->profileImageService->getAll();
 
         $posts = $this->postService->getLatestPost(GeneralType::PURPOSE_SALE);
         return view('posts.latest', compact('posts', 'manufacturers', 'build_types', 'profile_image', 'users'));

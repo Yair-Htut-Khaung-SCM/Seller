@@ -29,7 +29,7 @@
                     </button>
                 </form>
                 @else
-                <form action="{{route('favourite.destroy', $post->pivot->id)}}" method="POST">
+                <form action="{{route('favourite.destroy', $post->id)}}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-default favorite_btn" title="Remove from favorites" style="padding: 0; border: none; background: none;">

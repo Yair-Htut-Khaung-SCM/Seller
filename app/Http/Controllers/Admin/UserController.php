@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Services\Admin\UserService;
 
 class UserController extends Controller
@@ -23,9 +24,9 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')->with('error', 'This action is unavailable.');
     }
 
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        $users = $this->userService->deleteUser($id);
+        $users = $this->userService->deleteUser($user);
         return redirect()->route('admin.users.index')->with('success', 'User is successfully deleted.');
     }
 }

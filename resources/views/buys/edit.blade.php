@@ -399,7 +399,7 @@ Edit Post
 
           <!-- Publish/Unpublish -->
           <div class="form-check mt-2">
-            <input class="form-check-input" type="radio" name="publish" id="publish" value="1" @if(old('is_published',$post->is_published)=="1") checked @endif>
+            <input class="form-check-input" type="radio" name="is_published" id="is_published" value="1" @if(old('is_published',$post->is_published)=="1") checked @endif>
             <label class="form-check-label" for="publish">
               Publish
             </label>
